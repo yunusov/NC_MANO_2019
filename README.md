@@ -1,4 +1,4 @@
-0. Завести учётную запись на github.com;
+0. Завести учёт ную запись на github.com;
 1. Установить на ПК:
 - jdk1.8 https://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html#javasejdk,
 - maven https://maven.apache.org/download.cgi. Распакуйте архив и добавьте путь к каталогу bin в переменную окружения path. Чтобы протестировать правильность установки Maven, запустите в командной строке:
