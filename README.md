@@ -17,7 +17,7 @@ OS name: "mac os x", version: "10.8.3", arch: "x86_64", family: "mac"
 - IntelliJ Idea Community https://www.jetbrains.com/idea/download/#section=windows,
 - git https://gitforwindows.org/.
 2. Связать Git и учётную запись;
-3. В консоли гита переходите в папочку где будет лежать проект и делаете клон git clone 'https://github.com/yunusov/NC_FF1_2018_repository.git' -b 'Student Branch Name';
+3. В консоли гита переходите в папочку где будет лежать проект и делаете клон git clone 'https://github.com/yunusov/NC_MANO_2019.git' -b 'Student Branch Name';
 4. Открываете в JIDEA проект через pom.xml, maven попросит скачать библиотеки;
 5. Собираете проект [Ctrl] + [F9];
 6. Запускаете App.main();
