@@ -8,7 +8,7 @@ public class Index {
   
     @RequestMapping("/")
     public String index() {
-        return "222222";
+        return "Greetings from Spring Boot!";
     }
 
 }
