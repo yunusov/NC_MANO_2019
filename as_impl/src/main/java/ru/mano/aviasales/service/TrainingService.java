@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 @Service
 public class TrainingService {
     @PostConstruct
-    public void startTraining () { ///
+    public void startTraining () {
         Curator curator = new Curator();
         Student student = new Student();
 
