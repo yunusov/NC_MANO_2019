@@ -1,7 +1,7 @@
 package ru.mano.aviasales.entity;
 
 public class User {
-    private int userId;
+    private User id;
     private Role role;
 
     public User(int userId) {
@@ -9,16 +9,16 @@ public class User {
     }
 
     public User(int userId, Role role) {
-        this.userId = userId;
+        this.id = userId;
         this.role = role;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Role getRole() {
@@ -34,7 +34,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "userId=" + id +
                 ", role=" + role +
                 '}';
     }
