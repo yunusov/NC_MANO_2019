@@ -3,6 +3,7 @@ package ru.mano.aviasales;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ru.mano.aviasales.entity.*;
+import ru.mano.aviasales.service.RouteService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,14 +22,11 @@ public class App
 
 
 
-        Route route = Route.makeRoute()
-                            .setUserId(users.get(1).getUserId())
-                            .addTicket(tickets.get(0))
-                            .addTicket(tickets.get(1))
-                            .build();
+        Route route = new Route(0);
+        route.addTicket(tickets);
 
-        System.out.println(route.totalCost());
-        System.out.println(route.totalDistance2());
+        System.out.println(RouteService.totalDistance(route));
+        System.out.println(RouteService.totalCost(route));
 
     }
 }

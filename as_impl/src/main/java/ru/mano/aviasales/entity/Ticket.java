@@ -12,11 +12,6 @@ public class Ticket {
         this.to = to;
         this.cost = cost;
     }
-    public double distanceBetween () {  // возможно стоит перенести в Service
-        double resultX = from.getX() - to.getX();
-        double resultY = from.getY() - to.getY();
-        return Math.sqrt(resultX * resultX + resultY * resultY);
-    }
 
     public City getFrom() {
         return from;
