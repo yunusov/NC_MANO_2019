@@ -18,7 +18,7 @@ public class TicketsManagementService {
     }
 
     public void updateTicket(long id, City newSource, City newDestination) {
-        List<Ticket> tickets = getTicketById(id);
+        List<Ticket> tickets = getTicketById(id);   //route
         for (Ticket t : tickets) {
             t.setSource(newSource);
             t.setDestination(newDestination);
@@ -66,6 +66,7 @@ public class TicketsManagementService {
                 .collect(Collectors.toList());*/
     }
 
+    //TODO: return Ticket
     public List<Ticket> getTicketById(long id) {
         return ticketsStorage.stream()
                 .filter(t ->

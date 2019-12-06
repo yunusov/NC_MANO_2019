@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+//singleton
 public class UserManagementService {
 
     private static List<User> storage = new LinkedList<>();

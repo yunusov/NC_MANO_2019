@@ -3,7 +3,7 @@ package ru.mano.aviasales.model;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Ticket extends Id {
+public class Ticket extends BaseEntity {
     @Getter
     @Setter
     private City source;

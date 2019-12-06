@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Route extends Id {
+public class Route extends BaseEntity {
     private List<Ticket> route = new LinkedList<>();
     @Getter
     @Setter

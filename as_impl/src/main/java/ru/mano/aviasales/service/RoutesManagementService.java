@@ -20,7 +20,7 @@ public class RoutesManagementService {
     public Route getRoute(long id){
         return routesStorage.stream()
                 .filter(route -> route.getId() == id)
-                .collect(Collectors.toList());  //wtf
+                .findFirst().get();
     }
 
     public List<Route> getUsersRoutes(User owner){
