@@ -1,28 +1,28 @@
 package ru.mano.aviasales.model;
 
-public class Ticket {
+import lombok.Getter;
+import lombok.Setter;
+
+public class Ticket extends Id {
+    @Getter
+    @Setter
     private City source;
+    @Getter
+    @Setter
     private City destination;
 
-    public Ticket(City source, City destination) {
+    public Ticket(long id, City source, City destination) {
+        this.id = id;
         this.source = source;
         this.destination = destination;
     }
 
-    public City getSource() {
-        return source;
+    public long getId() {
+        return id;
     }
 
-    public void setSource(City source) {
-        this.source = source;
-    }
-
-    public City getDestination() {
-        return destination;
-    }
-
-    public void setDestination(City destination) {
-        this.destination = destination;
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override

@@ -1,17 +1,23 @@
 package ru.mano.aviasales.model;
 
-public class User {
-    private int id;
+import lombok.Getter;
+import lombok.Setter;
+
+public class User extends Id {
+    @Getter
+    @Setter
     private String name;
+    @Getter
+    @Setter
     private Role role;
 
-    public User(int id, String name, Role role) {
+    public User(long id, String name, Role role) {
         this.id = id;
         this.name = name;
         this.role = role;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -19,19 +25,4 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 }

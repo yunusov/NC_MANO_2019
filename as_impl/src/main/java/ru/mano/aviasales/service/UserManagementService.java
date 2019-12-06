@@ -13,38 +13,37 @@ public class UserManagementService {
     private static List<User> storage = new LinkedList<>();
     private static int nextId = 0;
 
-    public void createUser(String name){
+    public void createUser(String name) {
         storage.add(new User(generateNewId(), name, Role.USER));
     }
 
-    public User getUser(int id){
+    public User getUser(int id) {
         return storage.stream()
                 .filter(e -> e.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
 
-    public void updateUsersName(int id, String name){  //пока что метод на апдейт имени пользователя, т.к. других полей нет
+    public void updateUsersName(int id, String name) {  //пока что метод на апдейт имени пользователя, т.к. других полей нет
         User user;
         try {
             user = getUser(id);
             user.setName(name);
-        } catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             System.out.println("There is no user with id " + id);
         }
     }
 
-    public void deleteUser(int id){
+    public void deleteUser(int id) {
         Optional<User> user = Optional.ofNullable(getUser(id));
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             storage.remove(storage.indexOf(getUser(id)));
-        }
-        else{
+        } else {
             System.out.println("Can not complete deletion, because user with id " + id + " does not exists");
         }
     }
 
-    private int generateNewId(){
+    private int generateNewId() {
         return nextId++;
     }
 }

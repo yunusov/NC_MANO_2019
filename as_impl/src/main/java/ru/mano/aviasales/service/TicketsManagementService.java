@@ -11,12 +11,21 @@ import java.util.stream.Collectors;
 public class TicketsManagementService {
 
     private static List<Ticket> ticketsStorage = new LinkedList<>();
+    private static long nextId = 0;
 
-    public void addTicket(Ticket ticket){
-        ticketsStorage.add(ticket);
+    public void createTicket(City source, City destination) {
+        ticketsStorage.add(new Ticket(generateNewId(), source, destination));
     }
 
-    public void updateTicket(City source, City destination, City newSource, City newDestination){
+    public void updateTicket(long id, City newSource, City newDestination) {
+        List<Ticket> tickets = getTicketById(id);
+        for (Ticket t : tickets) {
+            t.setSource(newSource);
+            t.setDestination(newDestination);
+        }
+    }
+
+    public void updateTickets(City source, City destination, City newSource, City newDestination) {
         //1 способ
         List<Ticket> list = getTickets(source, destination);
         for (Ticket t : list) {
@@ -25,21 +34,30 @@ public class TicketsManagementService {
         }
 
         //2 способ
-        Ticket ticket = new Ticket(source, destination);
+        /*Ticket ticket = new Ticket(0, source, destination);
         ticketsStorage.forEach(t -> {
-            if(t.equals(ticket)){
+            if (t.equals(ticket)) {
                 t.setSource(newSource);
                 t.setDestination(newDestination);
+            }
+        });*/
+    }
+
+    public void updateTickets(List<Long> ids, City newSource, City newDestination) {
+        ticketsStorage.forEach(ticket -> {
+            if (ids.contains(ticket.getId())) {
+                ticket.setSource(newSource);
+                ticket.setDestination(newDestination);
             }
         });
     }
 
-    public List<Ticket> getTickets(City source, City destination){
+    public List<Ticket> getTickets(City source, City destination) {
         //1 способ
         return ticketsStorage.stream()
                 .filter(t ->
-                    t.getDestination().equals(destination) &&
-                            t.getSource().equals(source))
+                        t.getDestination().equals(destination) &&
+                                t.getSource().equals(source))
                 .collect(Collectors.toList());
         //2 способ
         /*Ticket ticket = new Ticket(source, destination);
@@ -48,14 +66,29 @@ public class TicketsManagementService {
                 .collect(Collectors.toList());*/
     }
 
-    public void deleteTickets(City source, City destination){
+    public List<Ticket> getTicketById(long id) {
+        return ticketsStorage.stream()
+                .filter(t ->
+                        t.getId() == id)
+                .collect(Collectors.toList());
+    }
+
+    public void deleteTickets(City source, City destination) {
         Iterator<Ticket> it = ticketsStorage.iterator();
-        Ticket ticket = new Ticket(source, destination);
-        while (it.hasNext()){
-            if(it.next().equals(ticket)){
+        Ticket ticket = new Ticket(0, source, destination);
+        while (it.hasNext()) {
+            if (it.next().equals(ticket)) {
                 it.remove();
             }
         }
+    }
+
+    public void deleteTicketsById(long id) {
+        ticketsStorage.removeIf(ticket -> ticket.getId() == id);
+    }
+
+    private long generateNewId() {
+        return nextId++;
     }
 
 }

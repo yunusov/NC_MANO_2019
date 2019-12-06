@@ -1,37 +1,31 @@
 package ru.mano.aviasales.model;
 
-public class City {
+import lombok.Getter;
+import lombok.Setter;
+
+public class City extends Id {
+    @Getter
+    @Setter
     private double x;
+    @Getter
+    @Setter
     private double y;
+    @Getter
+    @Setter
     private String name;
 
-    public City(double x, double y, String name) {
+    public City(int id, double x, double y, String name) {
         this.x = x;
         this.y = y;
         this.name = name;
+        this.id = id;
     }
 
-    public double getX() {
-        return x;
+    public long getId() {
+        return id;
     }
 
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setId(long id) {
+        this.id = id;
     }
 }
