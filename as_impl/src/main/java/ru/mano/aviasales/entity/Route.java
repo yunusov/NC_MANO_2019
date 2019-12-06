@@ -1,25 +1,25 @@
 package ru.mano.aviasales.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Route {
+
+@Data
+
+public class Route extends AbstractEntityParent {
     private User userId;
     private List<Ticket> tickets = new ArrayList<>();
 
-    public Route() {}
 
-    public Route(User userId) {
+    public Route(int id, User userId, List<Ticket> tickets) {
+        super(id);
         this.userId = userId;
-    }
-    public Route(User userId, Ticket ticket) {
-        this.userId = userId;
-        this.tickets.add(ticket);
-    }
-
-    public Route(User userId, List<Ticket> tickets) {
-        this.userId = userId;
-        this.tickets.addAll(tickets);
+        this.tickets = tickets;
     }
 
     public boolean addTicket(Ticket ticket) {
@@ -30,19 +30,4 @@ public class Route {
         return this.tickets.addAll(tickets);
     }
 
-    public List<Ticket> getTickets() {
-        return new ArrayList<Ticket>(tickets);
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
 }

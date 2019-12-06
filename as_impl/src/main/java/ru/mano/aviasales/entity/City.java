@@ -1,15 +1,17 @@
 package ru.mano.aviasales.entity;
 
+
 import lombok.Data;
 
-import java.util.Objects;
 
 @Data
-public class City {
+public class City extends AbstractEntityParent {
     private String name;
     private int x, y;
 
-    public City(String name, int x, int y) {
+
+    public City(int id, String name, int x, int y) {
+        super(id);
         this.name = name;
         this.x = x;
         this.y = y;

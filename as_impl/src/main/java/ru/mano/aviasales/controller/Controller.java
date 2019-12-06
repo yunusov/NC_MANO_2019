@@ -3,6 +3,7 @@ package ru.mano.aviasales.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("demo")
+@RequestMapping("/")
 public class Controller {
 
     @Autowired
@@ -23,15 +24,42 @@ public class Controller {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getInfo", notes = "Demo Controller")
     public String getInfo() {
-        return "hello";
+        return "Hey there";
+    }
+
+
+
+    @GetMapping("user")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
+    @ApiOperation(value = "getUser", notes = "Demo Controller")
+    public String getUser() {
+        return "Here is your User...";
     }
 
     @PostMapping("user")
-    @ApiResponses(value = {@ApiResponse(code = 201, message = "OK")})
+    @ApiResponses(value = {@ApiResponse(code = 202, message = "Created")})
     @ApiOperation(value = "createUser", notes = "Demo Controller")
     public User createUser(@RequestBody User user) {
         return user;
     }
+
+    @PutMapping("user")
+    @ApiResponses(value = {@ApiResponse(code = 201, message = "Accepted")})
+    @ApiOperation(value = "deleteUser", notes = "Demo Controller")
+    public String deleteUser(User user) {
+        return "Here is your User...";
+    }
+
+    @DeleteMapping("user")
+    @ApiResponses(value = {@ApiResponse(code = 204, message = "No Content")})
+    @ApiOperation(value = "updateUser", notes = "Demo Controller")
+    public String updateUser(User user) {
+        return "Here is your User...";
+    }
+
+
+
+
 
     @PostMapping("resendTest")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "OK")})
