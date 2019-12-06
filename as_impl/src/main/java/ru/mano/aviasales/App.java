@@ -22,11 +22,11 @@ public class App
 
 
 
-        Route route = new Route(0);
+        Route route = new Route(users.get(0));
         route.addTicket(tickets);
-
-        System.out.println(RouteService.totalDistance(route));
-        System.out.println(RouteService.totalCost(route));
+        RouteService routeService = new RouteService();
+        System.out.println(routeService.totalDistance(route));
+        System.out.println(routeService.totalCost(route));
 
     }
 }

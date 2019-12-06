@@ -1,15 +1,15 @@
 package ru.mano.aviasales.entity;
 
 public class User {
-    private User id;
+    private int id;
     private Role role;
 
-    public User(int userId) {
-        this(userId, Role.USER);
+    public User(int id) {
+        this(id, Role.USER);
     }
 
-    public User(int userId, Role role) {
-        this.id = userId;
+    public User(int id, Role role) {
+        this.id = id;
         this.role = role;
     }
 

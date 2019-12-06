@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Route {
-    private int userId;
+    private User userId;
     private List<Ticket> tickets = new ArrayList<>();
 
     public Route() {}
 
-    public Route(int userId) {
+    public Route(User userId) {
         this.userId = userId;
     }
-    public Route(int userId, Ticket ticket) {
+    public Route(User userId, Ticket ticket) {
         this.userId = userId;
         this.tickets.add(ticket);
     }
 
-    public Route(int userId, List<Ticket> tickets) {
+    public Route(User userId, List<Ticket> tickets) {
         this.userId = userId;
         this.tickets.addAll(tickets);
     }
@@ -38,11 +38,11 @@ public class Route {
         this.tickets = tickets;
     }
 
-    public int getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 }
