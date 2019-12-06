@@ -3,7 +3,7 @@ package ru.mano.aviasales.model;
 import lombok.Getter;
 import lombok.Setter;
 
-public class User extends Id {
+public class User extends BaseEntity {
     @Getter
     @Setter
     private String name;
