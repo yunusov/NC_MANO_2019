@@ -32,7 +32,7 @@ public class Controller {
     @GetMapping("user")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getUser", notes = "Demo Controller")
-    public String getUser() {
+    public String getUser(int id) {
         return "Here is your User...";
     }
 
