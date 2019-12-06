@@ -4,6 +4,8 @@ import ru.mano.aviasales.entity.Route;
 import ru.mano.aviasales.entity.Ticket;
 
 public class RouteService {
+
+
     public double totalCost(Route route) {
         return route.getTickets().stream()
                                  .mapToDouble(Ticket::getCost)
@@ -11,7 +13,7 @@ public class RouteService {
     }
     public double totalDistance(Route route) {
         return route.getTickets().stream()
-                .mapToDouble(TicketService::distance)
+                .mapToDouble(TicketService.getInsatce()::distance)
                 .sum();
     }
 
