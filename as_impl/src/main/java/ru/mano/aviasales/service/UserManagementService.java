@@ -1,5 +1,6 @@
 package ru.mano.aviasales.service;
 
+import org.springframework.stereotype.Service;
 import ru.mano.aviasales.model.Role;
 import ru.mano.aviasales.model.User;
 
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-//TODO: make as singleton
+@Service
 public class UserManagementService {
 
     private static List<User> storage = new LinkedList<>();

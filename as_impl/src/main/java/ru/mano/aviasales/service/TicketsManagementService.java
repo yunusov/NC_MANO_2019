@@ -1,5 +1,6 @@
 package ru.mano.aviasales.service;
 
+import org.springframework.stereotype.Service;
 import ru.mano.aviasales.model.City;
 import ru.mano.aviasales.model.Ticket;
 
@@ -8,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//TODO: make as singleton
+@Service
 public class TicketsManagementService {
 
     private static List<Ticket> ticketsStorage = new LinkedList<>();

@@ -1,5 +1,6 @@
 package ru.mano.aviasales.service;
 
+import org.springframework.stereotype.Service;
 import ru.mano.aviasales.model.Route;
 import ru.mano.aviasales.model.Ticket;
 import ru.mano.aviasales.model.User;
@@ -7,8 +8,8 @@ import ru.mano.aviasales.model.User;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+@Service
 public class RoutesManagementService {
 
     private static List<Route> routesStorage = new LinkedList<>();
