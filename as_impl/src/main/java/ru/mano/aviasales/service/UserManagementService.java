@@ -8,11 +8,24 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-//singleton
+//TODO: make as singleton
 public class UserManagementService {
 
     private static List<User> storage = new LinkedList<>();
     private static int nextId = 0;
+    private static UserManagementService instanse;
+
+    static {
+        instanse = new UserManagementService();
+    }
+
+    private UserManagementService() {
+    }
+
+    public static UserManagementService getInstanse() {
+        return instanse;
+    }
+
 
     public void createUser(String name) {
         storage.add(new User(generateNewId(), name, Role.USER));

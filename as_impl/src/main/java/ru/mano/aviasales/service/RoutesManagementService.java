@@ -6,39 +6,64 @@ import ru.mano.aviasales.model.User;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class RoutesManagementService {
 
     private static List<Route> routesStorage = new LinkedList<>();
     private static long nextId;
+    private static RoutesManagementService instance;
 
-    public void createRoute(List<Ticket> list, User owner){
+    static {
+        instance = new RoutesManagementService();
+    }
+
+    private RoutesManagementService() {
+    }
+
+    public void createRoute(List<Ticket> list, User owner) {
         routesStorage.add(new Route(generateNewId(), list, owner));
     }
 
-    public Route getRoute(long id){
+    public Route getRoute(long id) {
         return routesStorage.stream()
                 .filter(route -> route.getId() == id)
-                .findFirst().get();
+                .findAny().get();
     }
 
-    public List<Route> getUsersRoutes(User owner){
+    public List<Route> getUsersRoutes(User owner) {
         List<Route> result = new LinkedList<>();
-        for (Route r : routesStorage){
-            if (r.getOwner().getId() == owner.getId()){
+        for (Route r : routesStorage) {
+            if (r.getOwner().getId() == owner.getId()) {
                 result.add(new Route(r));
             }
         }
         return result;
     }
 
-    public void updateRoute(){
-
+    public void addTicketInRoute(long id, Ticket ticket) {
+        Optional<Route> route = Optional.ofNullable(getRoute(id));
+        route.ifPresent(route1 -> route1.addNextRoot(ticket));
     }
 
-    public void deleteRoute(){
+    public void addTicketAtIndex(long id, int index, Ticket ticket) {
+        Optional<Route> route = Optional.ofNullable(getRoute(id));
+        route.ifPresent(route1 -> route1.addRootAtIndex(ticket, index));
+    }
 
+    public void deleteTicketFromRoute(long id, Ticket ticket) {
+        Optional<Route> route = Optional.ofNullable(getRoute(id));
+        route.ifPresent(route1 -> route1.deleteRoot(ticket));
+    }
+
+    public void deleteRoute(long id) {
+        Optional<Route> route = Optional.ofNullable(getRoute(id));
+        if (route.isPresent()) {
+            routesStorage.remove(routesStorage.indexOf(getRoute(id)));
+        } else {
+            System.out.println("Can not complete deletion, because user with id " + id + " does not exists");
+        }
     }
 
     private long generateNewId() {

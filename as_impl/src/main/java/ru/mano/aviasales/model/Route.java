@@ -19,7 +19,7 @@ public class Route extends BaseEntity {
         this.owner = owner;
     }
 
-    public Route(Route route){
+    public Route(Route route) {
         this.route = new LinkedList<>(route.getRoute());
         this.owner = route.getOwner();
     }
@@ -44,8 +44,8 @@ public class Route extends BaseEntity {
         route.add(index, newRoot);
     }
 
-    public void deleteRoot(int index) {
-        route.remove(index);
+    public void deleteRoot(Ticket ticket) {
+        route.removeIf(t -> t.equals(ticket));
     }
 
     public long getId() {

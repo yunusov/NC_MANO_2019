@@ -8,21 +8,32 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//TODO: make as singleton
 public class TicketsManagementService {
 
     private static List<Ticket> ticketsStorage = new LinkedList<>();
     private static long nextId = 0;
+    private static TicketsManagementService instance;
+
+    static {
+        instance = new TicketsManagementService();
+    }
+
+    private TicketsManagementService() {
+    }
+
+    public static TicketsManagementService getInstance() {
+        return instance;
+    }
 
     public void createTicket(City source, City destination) {
         ticketsStorage.add(new Ticket(generateNewId(), source, destination));
     }
 
     public void updateTicket(long id, City newSource, City newDestination) {
-        List<Ticket> tickets = getTicketById(id);   //route
-        for (Ticket t : tickets) {
-            t.setSource(newSource);
-            t.setDestination(newDestination);
-        }
+        Ticket ticket = getTicketById(id);
+        ticket.setSource(newSource);
+        ticket.setDestination(newDestination);
     }
 
     public void updateTickets(City source, City destination, City newSource, City newDestination) {
@@ -66,12 +77,11 @@ public class TicketsManagementService {
                 .collect(Collectors.toList());*/
     }
 
-    //TODO: return Ticket
-    public List<Ticket> getTicketById(long id) {
+    public Ticket getTicketById(long id) {
         return ticketsStorage.stream()
                 .filter(t ->
                         t.getId() == id)
-                .collect(Collectors.toList());
+                .findAny().get();
     }
 
     public void deleteTickets(City source, City destination) {
