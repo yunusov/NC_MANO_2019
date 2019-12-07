@@ -1,6 +1,5 @@
 package ru.mano.aviasales.service;
 
-import org.springframework.stereotype.Service;
 import ru.mano.aviasales.model.Role;
 import ru.mano.aviasales.model.User;
 
@@ -9,37 +8,38 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@Service
 public class UserManagementService {
 
     private static List<User> storage = new LinkedList<>();
-    private static int nextId = 0;
-    private static UserManagementService instanse;
+    private static long nextId = 0;
+    private static UserManagementService instance;
 
     static {
-        instanse = new UserManagementService();
+        instance = new UserManagementService();
     }
 
     private UserManagementService() {
     }
 
-    public static UserManagementService getInstanse() {
-        return instanse;
+    public static UserManagementService getInstance() {
+        return instance;
     }
 
 
-    public void createUser(String name) {
-        storage.add(new User(generateNewId(), name, Role.USER));
+    public long createUser(String name) {
+        long id = generateNewId();
+        storage.add(new User(id, name, Role.USER));
+        return id;
     }
 
-    public User getUser(int id) {
+    public User getUser(long id) {
         return storage.stream()
                 .filter(e -> e.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
 
-    public void updateUsersName(int id, String name) {  //пока что метод на апдейт имени пользователя, т.к. других полей нет
+    public void updateUsersName(long id, String name) {  //пока что метод на апдейт имени пользователя, т.к. других полей нет
         User user;
         try {
             user = getUser(id);
@@ -49,7 +49,7 @@ public class UserManagementService {
         }
     }
 
-    public void deleteUser(int id) {
+    public void deleteUser(long id) {
         Optional<User> user = Optional.ofNullable(getUser(id));
         if (user.isPresent()) {
             storage.remove(storage.indexOf(getUser(id)));
@@ -58,7 +58,7 @@ public class UserManagementService {
         }
     }
 
-    private int generateNewId() {
+    private long generateNewId() {
         return nextId++;
     }
 }

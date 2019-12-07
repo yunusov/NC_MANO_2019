@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 public class RoutesManagementService {
 
     private static List<Route> routesStorage = new LinkedList<>();

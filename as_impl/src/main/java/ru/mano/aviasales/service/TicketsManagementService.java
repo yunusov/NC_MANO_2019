@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 public class TicketsManagementService {
 
     private static List<Ticket> ticketsStorage = new LinkedList<>();

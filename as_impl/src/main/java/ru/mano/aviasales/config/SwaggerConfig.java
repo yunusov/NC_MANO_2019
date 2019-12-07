@@ -18,7 +18,7 @@ public class SwaggerConfig {
     public Docket swaggerSettings() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.request_response1.rest"))
+                .apis(RequestHandlerSelectors.basePackage("ru.mano.aviasales.controller"))
                 .build()
                 .apiInfo(apiInfo());
     }
@@ -26,8 +26,8 @@ public class SwaggerConfig {
     @Bean
     public ApiInfo apiInfo() {
         return new ApiInfo(
-                "SDWAN Conroller Stub REST API",
-                "For more info visit https://git.netcracker.com/PROD.INMRND.NAAS/sdwan-controller-stub",
+                "Aviasales Controller Stub REST API",
+                "_______",
                 "1.0",
                 "",
                 new Contact("", "", ""),
