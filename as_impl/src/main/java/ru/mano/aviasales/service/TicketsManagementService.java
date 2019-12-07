@@ -26,8 +26,10 @@ public class TicketsManagementService {
         return instance;
     }
 
-    public void createTicket(City source, City destination) {
-        ticketsStorage.add(new Ticket(generateNewId(), source, destination));
+    public long createTicket(City source, City destination) {
+        long id = generateNewId();
+        ticketsStorage.add(new Ticket(id, source, destination));
+        return id;
     }
 
     public void updateTicket(long id, City newSource, City newDestination) {
