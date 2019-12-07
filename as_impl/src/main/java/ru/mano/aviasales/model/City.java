@@ -14,7 +14,7 @@ public class City extends BaseEntity {
     @Setter
     private String name;
 
-    public City(int id, double x, double y, String name) {
+    public City(long id, double x, double y, String name) {
         this.x = x;
         this.y = y;
         this.name = name;
