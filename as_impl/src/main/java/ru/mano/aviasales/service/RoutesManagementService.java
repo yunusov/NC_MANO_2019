@@ -22,8 +22,14 @@ public class RoutesManagementService {
     private RoutesManagementService() {
     }
 
-    public void createRoute(List<Ticket> list, User owner) {
-        routesStorage.add(new Route(generateNewId(), list, owner));
+    public static RoutesManagementService getInstance() {
+        return instance;
+    }
+
+    public long createRoute(List<Ticket> list, User owner) {
+        long id = generateNewId();
+        routesStorage.add(new Route(id, list, owner));
+        return id;
     }
 
     public Route getRoute(long id) {
