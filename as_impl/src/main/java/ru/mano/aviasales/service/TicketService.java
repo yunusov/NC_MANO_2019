@@ -7,7 +7,7 @@ import java.util.List;
 
 public class TicketService {
 
-    private List<Ticket> ticketList;
+    private List<Ticket> storage;
     private static TicketService ticketService;
     static {
         ticketService = new TicketService();
@@ -16,7 +16,7 @@ public class TicketService {
     private TicketService(){
     }
 
-    public static TicketService getInsatce(){
+    public static TicketService getInstance(){
         return ticketService;
     }
 

@@ -9,7 +9,7 @@ import ru.mano.aviasales.service.TicketService;
 
 @RestController
 public class Index {
-    TicketService ticketService = TicketService.getInsatce();
+    TicketService ticketService = TicketService.getInstance();
 
 
     @RequestMapping("/")
