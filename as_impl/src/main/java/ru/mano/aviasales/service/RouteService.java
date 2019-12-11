@@ -13,7 +13,7 @@ public class RouteService {
     }
     public double totalDistance(Route route) {
         return route.getTickets().stream()
-                .mapToDouble(TicketService.getInstance()::distance)
+                .mapToDouble(TicketService.getInstance()::getDistance)
                 .sum();
     }
 

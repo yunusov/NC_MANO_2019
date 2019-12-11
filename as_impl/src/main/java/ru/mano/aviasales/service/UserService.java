@@ -41,8 +41,7 @@ public class UserService {
         User user = new User(generateNewId(), name, User.Role.USER);
         if (storage.add(user) )
             return user;
-        else
-            System.out.println( "Can\'t add new User (" + name + ") in storage ");
+        System.out.println( "Can\'t add new User (" + user + ") in storage ");
         return null;
 
     }
@@ -62,7 +61,7 @@ public class UserService {
         if (user == null) {
             System.out.println("Can\'t complete deletion, because user with id " + id + " does not exists");
             return null;
-        } else if(storage.remove(storage.indexOf(user)) == null) {
+        } else if(!storage.remove(user)) {
             System.out.println("Can\'t complete deletion of existing user ");
             return null;
         }
