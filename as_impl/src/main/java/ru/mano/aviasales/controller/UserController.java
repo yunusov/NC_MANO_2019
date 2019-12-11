@@ -9,57 +9,53 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import ru.mano.aviasales.entity.User;
+import ru.mano.aviasales.service.UserService;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/")
-public class Controller {
+public class UserController {
 
     @Autowired
     private RestTemplate restTemplate;
+    private UserService userService = UserService.getInstance();
 
-    @GetMapping("info")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
-    @ApiOperation(value = "getInfo", notes = "Demo Controller")
-    public String getInfo() {
-        return "Hey there";
-    }
-
-
-
-    @GetMapping("user")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
-    @ApiOperation(value = "getUser", notes = "Demo Controller")
-    public String getUser(int id) {
-        return "Here is your User...";
-    }
-
-    @PostMapping("user")
+    @PostMapping("/user")
     @ApiResponses(value = {@ApiResponse(code = 202, message = "Created")})
-    @ApiOperation(value = "createUser", notes = "Demo Controller")
-    public User createUser(@RequestBody User user) {
-        return user;
+    @ApiOperation(value = "createUser", notes = "User Controller")
+    public User createUser(String name) {
+        return userService.createUser(name);
     }
 
-    @PutMapping("user")
+    @GetMapping("/user")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
+    @ApiOperation(value = "getUser", notes = "User Controller")
+    public User getUser(int id) {
+            return userService.getUser(id); //Can return Null
+    }
+
+    @PutMapping("/user")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "Accepted")})
-    @ApiOperation(value = "deleteUser", notes = "Demo Controller")
-    public String deleteUser(User user) {
-        return "Here is your User...";
+    @ApiOperation(value = "deleteUser", notes = "User Controller")
+    public User updateUserName(int id, String newName) {
+        return userService.updateUsersName(id, newName);
     }
 
-    @DeleteMapping("user")
+    @DeleteMapping("/user")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "No Content")})
-    @ApiOperation(value = "updateUser", notes = "Demo Controller")
-    public String updateUser(User user) {
-        return "Here is your User...";
+    @ApiOperation(value = "updateUser", notes = "User Controller")
+    public User deleteUser(int id) {
+        return userService.deleteUser(id);
     }
 
 
 
 
+/*
 
     @PostMapping("resendTest")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "OK")})
@@ -71,4 +67,6 @@ public class Controller {
         System.out.println("body: " + forEntity.getBody());
         return forEntity.getBody();
     }
+    */
+
 }
