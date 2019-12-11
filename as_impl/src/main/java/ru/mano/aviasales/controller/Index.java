@@ -9,7 +9,7 @@ import ru.mano.aviasales.service.TicketService;
 
 @RestController
 public class Index {
-    TicketService ticketService = TicketService.getInstance();
+    private TicketService ticketService = TicketService.getInstance();
 
 
     @RequestMapping("/")
@@ -21,6 +21,6 @@ public class Index {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getDistance", notes = "Demo Controller")
     public double getDistance(@RequestBody Ticket ticket) {
-        return ticketService.distance(ticket);
+        return ticketService.getDistance(ticket);
     }
 }

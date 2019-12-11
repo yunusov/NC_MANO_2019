@@ -100,6 +100,15 @@ public class TicketService {
         return ticket;
     }
 
+    public double getTicketDistanceById(int ticketId) {
+        Ticket ticket = getTicket(ticketId);
+        if (ticket == null) {
+            System.out.println("Can\'t compute distance, because Ticket with id " + ticketId + " does not exists");
+            return 0.0;
+        }
+        return getDistance(ticket);
+    }
+
     private int generateNewId() {
         return nextId++;
     }

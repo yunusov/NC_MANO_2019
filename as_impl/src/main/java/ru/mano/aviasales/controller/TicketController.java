@@ -68,4 +68,11 @@ public class TicketController {
         return ticketService.deleteTicket(id);
     }
 
+
+    @GetMapping("/ticket")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
+    @ApiOperation(value = "getTicketDistanceById", notes = "Ticket Controller")
+    public double getTicketDistanceById(int id) {
+        return ticketService.getTicketDistanceById(id);
+    }
 }
