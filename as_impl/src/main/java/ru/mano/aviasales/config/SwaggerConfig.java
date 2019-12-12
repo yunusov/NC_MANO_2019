@@ -27,7 +27,7 @@ public class SwaggerConfig {
     @Bean
     public ApiInfo apiInfo() {
         return new ApiInfo(
-                "SDWAN Conroller Stub REST API",
+                "REST API",
                 "For more info visit https://git.netcracker.com/PROD.INMRND.NAAS/sdwan-controller-stub",
                 "1.0",
                 "",
@@ -37,5 +37,4 @@ public class SwaggerConfig {
                 Collections.emptyList()
         );
     }
-
 }

@@ -31,7 +31,7 @@ public class CityService {
                     .findAny()
                     .orElseThrow(NoSuchElementException::new);
         } catch (NoSuchElementException e) {
-            System.out.println( "Can\'t get City with id: " + id + '\n' + Arrays.toString(e.getStackTrace()));
+            System.out.println( "Can\'t get City with id: " + id + '\n' + e.getMessage() );
             return null;
         }
     }
@@ -46,6 +46,12 @@ public class CityService {
 
     }
 
+    public City updateCity(int cityId, City city) {
+        //TODO: some check
+        return storage.set(cityId, city);
+    }
+
+    @Deprecated
     public City updateCityName(int id, String newName) {
         City city = getCity(id);
         if (city != null) {
@@ -56,6 +62,7 @@ public class CityService {
         return null;
     }
 
+    @Deprecated
     public City updateCityCoordinate(int id, double x, double y) {
         City city = getCity(id);
         if (city != null) {

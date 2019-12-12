@@ -35,7 +35,7 @@ public class TicketService {
                     .findAny()
                     .orElseThrow(NoSuchElementException::new);
         } catch (NoSuchElementException e) {
-            System.out.println( "Can\'t get Ticket with id: " + id + '\n' + Arrays.toString(e.getStackTrace()));
+            System.out.println( "Can\'t get Ticket with id: " + id + '\n' + e.getMessage());
             return null;
         }
     }
@@ -58,6 +58,12 @@ public class TicketService {
         return null;
     }
 
+    public Ticket updateTicket(int id, Ticket ticket) {
+        // TODO: checking
+        return storage.set(id, ticket);
+    }
+
+    @Deprecated
     public Ticket updateTicketCost(int id, double cost) {
         Ticket ticket = getTicket(id);
         if (ticket != null) {
@@ -68,6 +74,8 @@ public class TicketService {
         return null;
     }
 
+
+    @Deprecated
     public Ticket updateTicketFrom(int id, int fromId) {
         Ticket ticket = getTicket(id);
         if (ticket != null) {
@@ -78,6 +86,7 @@ public class TicketService {
         return null;
     }
 
+    @Deprecated
     public Ticket updateTicketTo(int id, int toId) {
         Ticket ticket = getTicket(id);
         if (ticket != null) {

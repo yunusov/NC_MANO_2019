@@ -32,7 +32,7 @@ public class UserService {
                     .findAny()
                     .orElseThrow(NoSuchElementException::new);
         } catch (NoSuchElementException e) {
-            System.out.println( "Can\'t get User with id: " + id + '\n' + Arrays.toString(e.getStackTrace()));
+            System.out.println( "Can\'t get User with id: " + id + '\n' + e.getMessage());
             return null;
         }
     }

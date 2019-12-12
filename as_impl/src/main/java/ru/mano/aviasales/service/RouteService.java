@@ -36,7 +36,7 @@ public class RouteService {
                     .findAny()
                     .orElseThrow(NoSuchElementException::new);
         } catch (NoSuchElementException e) {
-            System.out.println( "Can\'t get Route with id: " + id + '\n' + Arrays.toString(e.getStackTrace()));
+            System.out.println( "Can\'t get Route with id: " + id + '\n' + e.getMessage());
             return null;
         }
     }

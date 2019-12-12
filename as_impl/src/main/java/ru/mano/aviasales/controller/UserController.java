@@ -3,25 +3,15 @@ package ru.mano.aviasales.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import ru.mano.aviasales.entity.User;
 import ru.mano.aviasales.service.UserService;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/")
+//@RequestMapping("/")
 public class UserController {
 
-    @Autowired
-    //private RestTemplate restTemplate;
     private UserService userService = UserService.getInstance();
 
     @PostMapping("/user")
