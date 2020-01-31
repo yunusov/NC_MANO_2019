@@ -1,23 +1,18 @@
-package ru.mano.aviasales.entity;
+package ru.mano.aviasales.dto;
 
 
 import lombok.Data;
-import ru.mano.aviasales.dto.AbstractEntityParent;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Data
-@Entity
-public class User {
-    @Id
-    int id;
+public class User extends AbstractEntityParent {
     private String name;
     private Role role;
 
 
     public User(int id, String name, Role role) {
-        this.id = id;
+        super(id);
         this.name = name;
         this.role = role;
     }

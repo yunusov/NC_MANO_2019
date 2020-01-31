@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
-import ru.mano.aviasales.entity.User;
+import ru.mano.aviasales.dto.User;
 import ru.mano.aviasales.service.UserService;
 
 

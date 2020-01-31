@@ -1,10 +1,9 @@
 package ru.mano.aviasales.service;
 
 
-import ru.mano.aviasales.entity.City;
+import ru.mano.aviasales.dto.City;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class CityService {

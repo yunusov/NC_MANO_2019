@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import ru.mano.aviasales.entity.Ticket;
+import ru.mano.aviasales.dto.Ticket;
 import ru.mano.aviasales.service.TicketService;
 
 //@RestController

@@ -1,11 +1,8 @@
-package ru.mano.aviasales.entity;
+package ru.mano.aviasales.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import ru.mano.aviasales.dto.AbstractEntityParent;
+import lombok.*;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,27 +10,25 @@ import java.util.List;
 
 @Getter
 @Data
-@Entity
-public class Route {
-    @Id
-    int id;
+public class Route extends AbstractEntityParent {
+
     private User userId;
     @OneToMany
     private List<Ticket> tickets = new ArrayList<>();
 
     public Route(int id, User userId, Ticket ticket) {
-        this.id = id;
+        super(id);
         this.userId = userId;
         this.tickets.add(ticket);
     }
     public Route(int id, User userId, List<Ticket> tickets) {
-        this.id = id;
+        super(id);
         this.userId = userId;
         this.tickets = tickets;
     }
 
     public Route(int id, User userId) {
-        this.id = id;
+        super(id);
         this.userId = userId;
     }
 

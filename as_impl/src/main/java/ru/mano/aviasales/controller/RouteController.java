@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
-import ru.mano.aviasales.entity.Route;
+import ru.mano.aviasales.dto.Route;
 import ru.mano.aviasales.service.RouteService;
 
 @RestController

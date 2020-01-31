@@ -1,7 +1,9 @@
-package ru.mano.aviasales.entity;
+package ru.mano.aviasales.dto;
 
 
 import lombok.Data;
+
+import javax.persistence.Id;
 
 
 @Data

@@ -1,12 +1,10 @@
 package ru.mano.aviasales.service;
 
 
-import ru.mano.aviasales.entity.User;
+import ru.mano.aviasales.dto.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 public class UserService {
     private static UserService userService;

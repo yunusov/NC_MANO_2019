@@ -1,12 +1,10 @@
 package ru.mano.aviasales.service;
 
-import ru.mano.aviasales.entity.City;
-import ru.mano.aviasales.entity.Route;
-import ru.mano.aviasales.entity.Ticket;
-import ru.mano.aviasales.entity.User;
+import ru.mano.aviasales.dto.Route;
+import ru.mano.aviasales.dto.Ticket;
+import ru.mano.aviasales.dto.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
