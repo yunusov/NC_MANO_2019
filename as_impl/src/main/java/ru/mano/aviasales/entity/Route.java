@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 public class Route {
     @Id
-    int id;
+    private int id;
     private User userId;
     @OneToMany
     private List<Ticket> tickets = new ArrayList<>();

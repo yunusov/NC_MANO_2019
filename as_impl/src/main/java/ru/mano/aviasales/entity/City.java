@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @Entity
 public class City  {
     @Id
-    int id;
+    private int id;
     private String name;
     private double x, y;
 

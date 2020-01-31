@@ -1,14 +1,14 @@
 package ru.mano.aviasales.service;
 
 
-import ru.mano.aviasales.dto.User;
+import ru.mano.aviasales.dto.UserDto;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public class UserService {
     private static UserService userService;
-    private ArrayList<User> storage = new ArrayList<>();
+    private ArrayList<UserDto> storage = new ArrayList<>();
     private static int nextId = 0;
 
     static {
@@ -23,7 +23,7 @@ public class UserService {
     }
 
 
-    public User getUser(int id) {
+    public UserDto getUser(int id) {
         try {
             return storage.stream()
                     .filter(u -> u.getId() == id)
@@ -35,35 +35,35 @@ public class UserService {
         }
     }
 
-    public User createUser(String name) {
-        User user = new User(generateNewId(), name, User.Role.USER);
-        if (storage.add(user) )
-            return user;
-        System.out.println( "Can\'t add new User (" + user + ") in storage ");
+    public UserDto createUser(String name) {
+        UserDto userDto = new UserDto(generateNewId(), name, UserDto.Role.USER);
+        if (storage.add(userDto) )
+            return userDto;
+        System.out.println( "Can\'t add new User (" + userDto + ") in storage ");
         return null;
 
     }
 
-    public User updateUsersName(int id, String newName) {
-        User user = getUser(id);
-        if (user != null) {
-            user.setName(newName);
-            return user;
+    public UserDto updateUsersName(int id, String newName) {
+        UserDto userDto = getUser(id);
+        if (userDto != null) {
+            userDto.setName(newName);
+            return userDto;
         }
         System.out.println("There is no user with id " + id);
         return null;
     }
 
-    public User deleteUser(int id) {
-        User user = getUser(id);
-        if (user == null) {
+    public UserDto deleteUser(int id) {
+        UserDto userDto = getUser(id);
+        if (userDto == null) {
             System.out.println("Can\'t complete deletion, because user with id " + id + " does not exists");
             return null;
-        } else if(!storage.remove(user)) {
+        } else if(!storage.remove(userDto)) {
             System.out.println("Can\'t complete deletion of existing user ");
             return null;
         }
-        return user;
+        return userDto;
     }
 
     private int generateNewId() {

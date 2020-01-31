@@ -1,14 +1,14 @@
 package ru.mano.aviasales.service;
 
 
-import ru.mano.aviasales.dto.City;
+import ru.mano.aviasales.dto.CityDto;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public class CityService {
     private static CityService cityService;
-    private ArrayList<City> storage = new ArrayList<>();
+    private ArrayList<CityDto> storage = new ArrayList<>();
     private static int nextId = 0;
 
     static {
@@ -23,7 +23,7 @@ public class CityService {
     }
 
 
-    public City getCity(int id) {
+    public CityDto getCity(int id) {
         try {
             return storage.stream()
                     .filter(c -> c.getId() == id)
@@ -35,8 +35,8 @@ public class CityService {
         }
     }
 
-    public City createCity(String name, double x, double y) {
-        City city = new City(generateNewId(), name, x, y);
+    public CityDto createCity(String name, double x, double y) {
+        CityDto city = new CityDto(generateNewId(), name, x, y);
         if (storage.add(city) )
             return city;
         else
@@ -45,14 +45,14 @@ public class CityService {
 
     }
 
-    public City updateCity(int cityId, City city) {
+    public CityDto updateCity(int cityId, CityDto city) {
         //TODO: some check
         return storage.set(cityId, city);
     }
 
     @Deprecated
-    public City updateCityName(int id, String newName) {
-        City city = getCity(id);
+    public CityDto updateCityName(int id, String newName) {
+        CityDto city = getCity(id);
         if (city != null) {
             city.setName(newName);
             return city;
@@ -62,8 +62,8 @@ public class CityService {
     }
 
     @Deprecated
-    public City updateCityCoordinate(int id, double x, double y) {
-        City city = getCity(id);
+    public CityDto updateCityCoordinate(int id, double x, double y) {
+        CityDto city = getCity(id);
         if (city != null) {
             city.setX(x);
             city.setY(y);
@@ -74,8 +74,8 @@ public class CityService {
     }
 
 
-    public City deleteCity(int id) {
-        City city = getCity(id);
+    public CityDto deleteCity(int id) {
+        CityDto city = getCity(id);
         if (city == null) {
             System.out.println("Can\'t complete deletion, because city with id " + id + " does not exists");
             return null;

@@ -1,7 +1,7 @@
 package ru.mano.aviasales.service;
 
-import ru.mano.aviasales.dto.City;
-import ru.mano.aviasales.dto.Ticket;
+import ru.mano.aviasales.dto.CityDto;
+import ru.mano.aviasales.dto.TicketDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 
 public class TicketService {
 
-    private List<Ticket> storage = new ArrayList<>();
+    private List<TicketDto> storage = new ArrayList<>();
     private static TicketService ticketService;
     private CityService cityService = CityService.getInstance();
     private static int nextId = 0;
@@ -26,7 +26,7 @@ public class TicketService {
     }
 
 
-    public Ticket getTicket(int id) {
+    public TicketDto getTicket(int id) {
         try {
             return storage.stream()
                     .filter(u -> u.getId() == id)
@@ -38,35 +38,35 @@ public class TicketService {
         }
     }
 
-    public Ticket createTicket(int fromId, int toId, double cost) {
-        Ticket ticket = new Ticket(generateNewId(), cityService.getCity(fromId), cityService.getCity(toId), cost);
-        if (storage.add(ticket) )
-            return ticket;
+    public TicketDto createTicket(int fromId, int toId, double cost) {
+        TicketDto ticketDto = new TicketDto(generateNewId(), cityService.getCity(fromId), cityService.getCity(toId), cost);
+        if (storage.add(ticketDto) )
+            return ticketDto;
         else
-            System.out.println( "Can\'t add in storage new Ticket " + ticket);
+            System.out.println( "Can\'t add in storage new Ticket " + ticketDto);
         return null;
 
     }
 
-    public Ticket createTicket(City from, City to, double cost) {
-        Ticket ticket = new Ticket(generateNewId(), from, to, cost);
-        if (storage.add(ticket) )
-            return ticket;
-        System.out.println( "Can\'t add in storage new Ticket " + ticket);
+    public TicketDto createTicket(CityDto from, CityDto to, double cost) {
+        TicketDto ticketDto = new TicketDto(generateNewId(), from, to, cost);
+        if (storage.add(ticketDto) )
+            return ticketDto;
+        System.out.println( "Can\'t add in storage new Ticket " + ticketDto);
         return null;
     }
 
-    public Ticket updateTicket(int id, Ticket ticket) {
+    public TicketDto updateTicket(int id, TicketDto ticketDto) {
         // TODO: checking
-        return storage.set(id, ticket);
+        return storage.set(id, ticketDto);
     }
 
     @Deprecated
-    public Ticket updateTicketCost(int id, double cost) {
-        Ticket ticket = getTicket(id);
-        if (ticket != null) {
-            ticket.setCost(cost);
-            return ticket;
+    public TicketDto updateTicketCost(int id, double cost) {
+        TicketDto ticketDto = getTicket(id);
+        if (ticketDto != null) {
+            ticketDto.setCost(cost);
+            return ticketDto;
         }
         System.out.println("Can\'t change cost. There is no Ticket with id " + id);
         return null;
@@ -74,46 +74,46 @@ public class TicketService {
 
 
     @Deprecated
-    public Ticket updateTicketFrom(int id, int fromId) {
-        Ticket ticket = getTicket(id);
-        if (ticket != null) {
-            ticket.setFrom(cityService.getCity(fromId));
-            return ticket;
+    public TicketDto updateTicketFrom(int id, int fromId) {
+        TicketDto ticketDto = getTicket(id);
+        if (ticketDto != null) {
+            ticketDto.setFrom(cityService.getCity(fromId));
+            return ticketDto;
         }
         System.out.println("Can\'t change City from.There is no Ticket with id " + id);
         return null;
     }
 
     @Deprecated
-    public Ticket updateTicketTo(int id, int toId) {
-        Ticket ticket = getTicket(id);
-        if (ticket != null) {
-            ticket.setTo(cityService.getCity(toId));
-            return ticket;
+    public TicketDto updateTicketTo(int id, int toId) {
+        TicketDto ticketDto = getTicket(id);
+        if (ticketDto != null) {
+            ticketDto.setTo(cityService.getCity(toId));
+            return ticketDto;
         }
         System.out.println("Can\'t change City from.There is no Ticket with id " + id);
         return null;
     }
 
-    public Ticket deleteTicket(int id) {
-        Ticket ticket = getTicket(id);
-        if (ticket == null) {
+    public TicketDto deleteTicket(int id) {
+        TicketDto ticketDto = getTicket(id);
+        if (ticketDto == null) {
             System.out.println("Can\'t complete deletion, because Ticket with id " + id + " does not exists");
             return null;
-        } else if(!storage.remove(ticket)) {
+        } else if(!storage.remove(ticketDto)) {
             System.out.println("Can\'t complete deletion of existing Ticket ");
             return null;
         }
-        return ticket;
+        return ticketDto;
     }
 
     public double getTicketDistanceById(int ticketId) {
-        Ticket ticket = getTicket(ticketId);
-        if (ticket == null) {
+        TicketDto ticketDto = getTicket(ticketId);
+        if (ticketDto == null) {
             System.out.println("Can\'t compute distance, because Ticket with id " + ticketId + " does not exists");
             return 0.0;
         }
-        return getDistance(ticket);
+        return getDistance(ticketDto);
     }
 
     private int generateNewId() {
@@ -121,9 +121,9 @@ public class TicketService {
     }
 
 
-    public double getDistance (Ticket ticket) {
-        double resultX = ticket.getFrom().getX() - ticket.getTo().getX();
-        double resultY = ticket.getFrom().getY() - ticket.getTo().getY();
+    public double getDistance (TicketDto ticketDto) {
+        double resultX = ticketDto.getFrom().getX() - ticketDto.getTo().getX();
+        double resultY = ticketDto.getFrom().getY() - ticketDto.getTo().getY();
         return Math.sqrt(resultX * resultX + resultY * resultY);
     }
 }

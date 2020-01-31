@@ -7,12 +7,12 @@ import javax.persistence.Entity;
 
 
 @Data
-public class City extends AbstractEntityParent {
+public class CityDto extends AbstractEntityParent {
     private String name;
     private double x, y;
 
 
-    public City(int id, String name, double x, double y) {
+    public CityDto(int id, String name, double x, double y) {
         super(id);
         this.name = name;
         this.x = x;

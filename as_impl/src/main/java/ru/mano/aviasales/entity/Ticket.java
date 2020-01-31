@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @Entity
 public class Ticket {
     @Id
-    int id;
+    private int id;
     private City from;
     private City to;
     private double cost;

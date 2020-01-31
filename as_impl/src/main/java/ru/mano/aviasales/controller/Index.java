@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import ru.mano.aviasales.dto.Ticket;
+import ru.mano.aviasales.dto.TicketDto;
 import ru.mano.aviasales.service.TicketService;
 
 //@RestController
@@ -24,8 +24,8 @@ public class Index {
     @PostMapping("/distance")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getDistance", notes = "Demo Controller")
-    public double getDistance(@RequestBody Ticket ticket) {
-        return ticketService.getDistance(ticket);
+    public double getDistance(@RequestBody TicketDto ticketDto) {
+        return ticketService.getDistance(ticketDto);
     }
 /*
     @PostMapping("resendTest")

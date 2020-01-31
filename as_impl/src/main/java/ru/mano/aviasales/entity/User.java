@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @Entity
 public class User {
     @Id
-    int id;
+    private int id;
     private String name;
     private Role role;
 

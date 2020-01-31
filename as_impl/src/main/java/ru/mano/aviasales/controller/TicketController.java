@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
-import ru.mano.aviasales.dto.Ticket;
+import ru.mano.aviasales.dto.TicketDto;
 import ru.mano.aviasales.service.TicketService;
 
 @RestController
@@ -15,28 +15,28 @@ public class TicketController {
     @PostMapping("/ticket")
     @ApiResponses(value = {@ApiResponse(code = 202, message = "Created")})
     @ApiOperation(value = "createTicket", notes = "Ticket Controller")
-    public Ticket createTicket(int fromId, int toId, double cost)  {
+    public TicketDto createTicket(int fromId, int toId, double cost)  {
         return ticketService.createTicket(fromId, toId, cost);
     }
 
     @GetMapping("/ticket")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getTicket", notes = "Ticket Controller")
-    public Ticket getTicket(int id) {
+    public TicketDto getTicket(int id) {
             return ticketService.getTicket(id);
     }
 
     @PutMapping("/ticket")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "Accepted")})
     @ApiOperation(value = "updateTicket", notes = "Ticket Controller")
-    public Ticket updateTicket(int id, @RequestBody Ticket ticket) {
-        return ticketService.updateTicket(id, ticket);
+    public TicketDto updateTicket(int id, @RequestBody TicketDto ticketDto) {
+        return ticketService.updateTicket(id, ticketDto);
     }
 
     @DeleteMapping("/ticket")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "No Content")})
     @ApiOperation(value = "deleteTicket", notes = "Ticket Controller")
-    public Ticket deleteTicket(int id) {
+    public TicketDto deleteTicket(int id) {
         return ticketService.deleteTicket(id);
     }
 
