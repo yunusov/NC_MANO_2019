@@ -1,13 +1,13 @@
 package ru.mano.aviasales.service;
 
-import ru.mano.aviasales.model.City;
+import ru.mano.aviasales.dto.CityDto;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CityManagementService {
-    private static List<City> cityList = new LinkedList<>();
+    private static List<CityDto> cityList = new LinkedList<>();
     private static long nextId = 0;
     private static CityManagementService instance;
 
@@ -24,31 +24,31 @@ public class CityManagementService {
 
     public long createCity(double x, double y, String name) {
         long id = generateNewId();
-        cityList.add(new City(id, x, y, name));
+        cityList.add(new CityDto(id, x, y, name));
         return id;
     }
 
-    public City getCityById(long id) {
+    public CityDto getCityById(long id) {
         return cityList.stream()
                 .filter(t -> t.getId() == id)
                 .findAny()
                 .get();
     }
 
-    public List<City> getCitiesByName(String name) {
+    public List<CityDto> getCitiesByName(String name) {
         return cityList.stream()
                 .filter(t -> t.getName().equals(name))
                 .collect(Collectors.toList());
     }
 
     public void updateCoordinates(long id, double newX, double newY) {
-        City toUpdate = getCityById(id);
+        CityDto toUpdate = getCityById(id);
         toUpdate.setX(newX);
         toUpdate.setY(newY);
     }
 
     public void updateName(long id, String newName) {
-        City toUpdate = getCityById(id);
+        CityDto toUpdate = getCityById(id);
         toUpdate.setName(newName);
     }
 

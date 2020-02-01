@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
-import ru.mano.aviasales.model.City;
+import ru.mano.aviasales.dto.CityDto;
 import ru.mano.aviasales.service.CityManagementService;
 
 import java.util.List;
@@ -24,14 +24,14 @@ public class CityController {
     @GetMapping("get")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "get", notes = "CityController")
-    public City getCity(long id){
+    public CityDto getCity(long id){
         return cityService.getCityById(id);
     }
 
     @GetMapping("getWithSameName")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getList", notes = "CityController")
-    public List<City> getCitiesByName(String name){
+    public List<CityDto> getCitiesByName(String name){
         return cityService.getCitiesByName(name);
     }
 

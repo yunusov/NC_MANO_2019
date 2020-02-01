@@ -1,13 +1,20 @@
-package ru.mano.aviasales.model;
+package ru.mano.aviasales.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Route extends BaseEntity {
+@Entity
+public class Route {
+
+    @Id
+    private long id;
+
     private List<Ticket> route = new LinkedList<>();
     @Getter
     @Setter

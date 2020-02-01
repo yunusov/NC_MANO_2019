@@ -1,9 +1,16 @@
-package ru.mano.aviasales.model;
+package ru.mano.aviasales.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class City extends BaseEntity {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class City {
+
+    @Id
+    private long id;
     @Getter
     @Setter
     private double x;

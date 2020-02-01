@@ -1,8 +1,8 @@
 package ru.mano.aviasales.service;
 
 import org.springframework.stereotype.Service;
-import ru.mano.aviasales.model.Curator;
-import ru.mano.aviasales.model.Student;
+import ru.mano.aviasales.dto.Curator;
+import ru.mano.aviasales.dto.Student;
 
 import javax.annotation.PostConstruct;
 

@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
-import ru.mano.aviasales.model.User;
+import ru.mano.aviasales.dto.UserDto;
 import ru.mano.aviasales.service.UserManagementService;
 
 @RestController
@@ -22,7 +22,7 @@ public class UserController {
     @PutMapping("update")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "updateUsername", notes = "UserController")
-    public User updateUsername(@RequestBody long id, String newName) {
+    public UserDto updateUsername(@RequestBody long id, String newName) {
         userService.updateUsersName(id, newName);
         return userService.getUser(id);
     }
@@ -30,7 +30,7 @@ public class UserController {
     @GetMapping("get")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getUser", notes = "UserController")
-    public User getUser(long id) {
+    public UserDto getUser(long id) {
         return userService.getUser(id);
     }
 

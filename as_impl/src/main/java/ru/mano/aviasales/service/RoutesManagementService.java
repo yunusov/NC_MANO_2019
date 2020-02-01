@@ -1,9 +1,8 @@
 package ru.mano.aviasales.service;
 
-import org.springframework.stereotype.Service;
-import ru.mano.aviasales.model.Route;
-import ru.mano.aviasales.model.Ticket;
-import ru.mano.aviasales.model.User;
+import ru.mano.aviasales.dto.RouteDto;
+import ru.mano.aviasales.dto.TicketDto;
+import ru.mano.aviasales.dto.UserDto;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.Optional;
 
 public class RoutesManagementService {
 
-    private static List<Route> routesStorage = new LinkedList<>();
+    private static List<RouteDto> routesStorage = new LinkedList<>();
     private static long nextId;
     private static RoutesManagementService instance;
 
@@ -26,45 +25,45 @@ public class RoutesManagementService {
         return instance;
     }
 
-    public long createRoute(List<Ticket> list, User owner) {
+    public long createRoute(List<TicketDto> list, UserDto owner) {
         long id = generateNewId();
-        routesStorage.add(new Route(id, list, owner));
+        routesStorage.add(new RouteDto(id, list, owner));
         return id;
     }
 
-    public Route getRoute(long id) {
+    public RouteDto getRoute(long id) {
         return routesStorage.stream()
                 .filter(route -> route.getId() == id)
                 .findAny().get();
     }
 
-    public List<Route> getUsersRoutes(User owner) {
-        List<Route> result = new LinkedList<>();
-        for (Route r : routesStorage) {
+    public List<RouteDto> getUsersRoutes(UserDto owner) {
+        List<RouteDto> result = new LinkedList<>();
+        for (RouteDto r : routesStorage) {
             if (r.getOwner().getId() == owner.getId()) {
-                result.add(new Route(r));
+                result.add(new RouteDto(r));
             }
         }
         return result;
     }
 
-    public void addTicketInRoute(long id, Ticket ticket) {
-        Optional<Route> route = Optional.ofNullable(getRoute(id));
+    public void addTicketInRoute(long id, TicketDto ticket) {
+        Optional<RouteDto> route = Optional.ofNullable(getRoute(id));
         route.ifPresent(route1 -> route1.addNextRoot(ticket));
     }
 
-    public void addTicketAtIndex(long id, int index, Ticket ticket) {
-        Optional<Route> route = Optional.ofNullable(getRoute(id));
+    public void addTicketAtIndex(long id, int index, TicketDto ticket) {
+        Optional<RouteDto> route = Optional.ofNullable(getRoute(id));
         route.ifPresent(route1 -> route1.addRootAtIndex(ticket, index));
     }
 
-    public void deleteTicketFromRoute(long id, Ticket ticket) {
-        Optional<Route> route = Optional.ofNullable(getRoute(id));
+    public void deleteTicketFromRoute(long id, TicketDto ticket) {
+        Optional<RouteDto> route = Optional.ofNullable(getRoute(id));
         route.ifPresent(route1 -> route1.deleteRoot(ticket));
     }
 
     public void deleteRoute(long id) {
-        Optional<Route> route = Optional.ofNullable(getRoute(id));
+        Optional<RouteDto> route = Optional.ofNullable(getRoute(id));
         if (route.isPresent()) {
             routesStorage.remove(routesStorage.indexOf(getRoute(id)));
         } else {

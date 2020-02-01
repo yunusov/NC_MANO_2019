@@ -1,4 +1,4 @@
-package ru.mano.aviasales.model;
+package ru.mano.aviasales.dto;
 
 public enum Role {
     USER,

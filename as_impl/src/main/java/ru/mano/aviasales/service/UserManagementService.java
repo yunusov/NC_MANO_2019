@@ -1,7 +1,7 @@
 package ru.mano.aviasales.service;
 
-import ru.mano.aviasales.model.Role;
-import ru.mano.aviasales.model.User;
+import ru.mano.aviasales.dto.Role;
+import ru.mano.aviasales.dto.UserDto;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class UserManagementService {
 
-    private static List<User> storage = new LinkedList<>();
+    private static List<UserDto> storage = new LinkedList<>();
     private static long nextId = 0;
     private static UserManagementService instance;
 
@@ -28,11 +28,11 @@ public class UserManagementService {
 
     public long createUser(String name) {
         long id = generateNewId();
-        storage.add(new User(id, name, Role.USER));
+        storage.add(new UserDto(id, name, Role.USER));
         return id;
     }
 
-    public User getUser(long id) {
+    public UserDto getUser(long id) {
         return storage.stream()
                 .filter(e -> e.getId() == id)
                 .findFirst()
@@ -40,7 +40,7 @@ public class UserManagementService {
     }
 
     public void updateUsersName(long id, String name) {  //пока что метод на апдейт имени пользователя, т.к. других полей нет
-        User user;
+        UserDto user;
         try {
             user = getUser(id);
             user.setName(name);
@@ -50,7 +50,7 @@ public class UserManagementService {
     }
 
     public void deleteUser(long id) {
-        Optional<User> user = Optional.ofNullable(getUser(id));
+        Optional<UserDto> user = Optional.ofNullable(getUser(id));
         if (user.isPresent()) {
             storage.remove(storage.indexOf(getUser(id)));
         } else {

@@ -1,17 +1,17 @@
-package ru.mano.aviasales.model;
+package ru.mano.aviasales.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class Ticket extends BaseEntity {
+public class TicketDto extends BaseEntityDto {
     @Getter
     @Setter
-    private City source;
+    private CityDto source;
     @Getter
     @Setter
-    private City destination;
+    private CityDto destination;
 
-    public Ticket(long id, City source, City destination) {
+    public TicketDto(long id, CityDto source, CityDto destination) {
         this.id = id;
         this.source = source;
         this.destination = destination;
@@ -30,7 +30,7 @@ public class Ticket extends BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Ticket ticket = (Ticket) o;
+        TicketDto ticket = (TicketDto) o;
 
         if (!getSource().equals(ticket.getSource())) return false;
         return getDestination().equals(ticket.getDestination());

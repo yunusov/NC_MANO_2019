@@ -26,7 +26,7 @@ public class SwaggerConfig {
     @Bean
     public ApiInfo apiInfo() {
         return new ApiInfo(
-                "Aviasales Controller Stub REST API",
+                "Aviato Controller",
                 "_______",
                 "1.0",
                 "",
