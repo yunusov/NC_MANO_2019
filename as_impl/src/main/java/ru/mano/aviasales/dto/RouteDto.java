@@ -1,12 +1,17 @@
 package ru.mano.aviasales.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import ru.mano.aviasales.entity.Route;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+@Data
+@AllArgsConstructor
 public class RouteDto extends BaseEntityDto {
     private List<TicketDto> route = new LinkedList<>();
     @Getter
@@ -17,11 +22,6 @@ public class RouteDto extends BaseEntityDto {
         this.id = id;
         this.route = new LinkedList<>(route);
         this.owner = owner;
-    }
-
-    public RouteDto(RouteDto route) {
-        this.route = new LinkedList<>(route.getRoute());
-        this.owner = route.getOwner();
     }
 
     public RouteDto(long id, List<TicketDto> route) {
@@ -50,5 +50,12 @@ public class RouteDto extends BaseEntityDto {
 
     public long getId() {
         return id;
+    }
+
+    public RouteDto() {
+    }
+
+    public UserDto getOwner() {
+        return owner;
     }
 }

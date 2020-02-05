@@ -1,13 +1,16 @@
 package ru.mano.aviasales.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import ru.mano.aviasales.dto.RouteDto;
 
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+@AllArgsConstructor
 @Entity
 //@Table(catalog = "postgres", schema = "aviato", name = "routes")
 public class Route {
@@ -27,25 +30,6 @@ public class Route {
     private User owner;
 
     public Route() {
-    }
-
-    public Route(long id, List<Ticket> route, User owner) {
-        this.id = id;
-        this.route = new LinkedList<>(route);
-        this.owner = owner;
-    }
-
-    public Route(Route route) {
-        this.route = new LinkedList<>(route.getRoute());
-        this.owner = route.getOwner();
-    }
-
-    public Route(long id, List<Ticket> route) {
-        this(id, route, null);
-    }
-
-    public Route(long id, Ticket[] tickets) {
-        this(id, new LinkedList<>(Arrays.asList(tickets)), null);
     }
 
     public List<Ticket> getRoute() {

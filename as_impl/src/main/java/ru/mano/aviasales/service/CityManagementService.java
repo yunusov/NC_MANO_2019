@@ -1,19 +1,24 @@
 package ru.mano.aviasales.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.mano.aviasales.dto.CityDto;
+import ru.mano.aviasales.entity.City;
+import ru.mano.aviasales.repository.CityRepository;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class CityManagementService {
+    @Autowired
+    private CityRepository repository;
     private static List<CityDto> cityList = new LinkedList<>();
     private static long nextId = 0;
     private static CityManagementService instance;
 
-    static {
-        instance = new CityManagementService();
-    }
+
 
     private CityManagementService() {
     }
@@ -25,7 +30,8 @@ public class CityManagementService {
     public long createCity(double x, double y, String name) {
         long id = generateNewId();
         cityList.add(new CityDto(id, x, y, name));
-        return id;
+        City city = repository.save(new City(id, x, y, name));
+        return city.getId();
     }
 
     public CityDto getCityById(long id) {

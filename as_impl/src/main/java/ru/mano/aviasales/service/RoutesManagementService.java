@@ -41,7 +41,7 @@ public class RoutesManagementService {
         List<RouteDto> result = new LinkedList<>();
         for (RouteDto r : routesStorage) {
             if (r.getOwner().getId() == owner.getId()) {
-                result.add(new RouteDto(r));
+                result.add(r);
             }
         }
         return result;

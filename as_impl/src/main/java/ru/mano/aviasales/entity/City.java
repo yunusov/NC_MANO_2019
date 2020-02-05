@@ -3,16 +3,14 @@ package ru.mano.aviasales.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 //@Table(catalog = "postgres", schema = "aviato", name = "cities")
 public class City {
 
     @Id
+    @GeneratedValue
     private long id;
 
     @Getter
