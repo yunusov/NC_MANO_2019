@@ -3,10 +3,8 @@ package ru.mano.aviasales.dto;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-
 @Data
-public class UserDto extends AbstractEntityParent {
+public class UserDto extends BaseDto {
     private String name;
     private Role role;
 

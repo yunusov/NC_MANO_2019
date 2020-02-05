@@ -3,11 +3,9 @@ package ru.mano.aviasales.dto;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-
 
 @Data
-public class CityDto extends AbstractEntityParent {
+public class CityDto extends BaseDto {
     private String name;
     private double x, y;
 

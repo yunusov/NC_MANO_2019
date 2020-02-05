@@ -5,12 +5,12 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 import ru.mano.aviasales.dto.CityDto;
-import ru.mano.aviasales.service.CityService;
+import ru.mano.aviasales.service.CityServiceLegacy;
 
 @RestController
 public class CityController {
 
-    private CityService cityService = CityService.getInstance();
+    private CityServiceLegacy cityService = CityServiceLegacy.getInstance();
 
     @PostMapping("/city")
     @ApiResponses(value = {@ApiResponse(code = 202, message = "Created")})

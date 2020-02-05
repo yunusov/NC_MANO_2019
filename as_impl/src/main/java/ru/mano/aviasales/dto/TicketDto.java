@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 @Data
-public class TicketDto extends AbstractEntityParent {
+public class TicketDto extends BaseDto {
     private CityDto from;
     private CityDto to;
     private double cost;

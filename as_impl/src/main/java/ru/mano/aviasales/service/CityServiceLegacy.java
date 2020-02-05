@@ -1,28 +1,25 @@
 package ru.mano.aviasales.service;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import ru.mano.aviasales.dto.CityDto;
-import ru.mano.aviasales.entity.CityEntity;
-import ru.mano.aviasales.repository.CityRepository;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
-@Component
-public class CityService {
-   @Autowired
-    private CityRepository repository;// = new ArrayList<>();
+public class CityServiceLegacy {
+    private ArrayList<CityDto> storage = new ArrayList<>();
     private static int nextId = 0;
 
-    public CityDto getCity(String id) {
-        Optional<CityEntity> city = repository.findById(id);
-        CityEntity cityEntity = city.orElseThrow(IllegalArgumentException::new);
-
-        //todo: convert to city dto
-        return null; //return here dto
+    public CityDto getCity(int id) {
+        try {
+            return storage.stream()
+                    .filter(c -> c.getId() == id)
+                    .findAny()
+                    .orElseThrow(NoSuchElementException::new);
+        } catch (NoSuchElementException e) {
+            System.out.println( "Can\'t get City with id: " + id + '\n' + e.getMessage() );
+            return null;
+        }
     }
 
     public CityDto createCity(String name, double x, double y) {

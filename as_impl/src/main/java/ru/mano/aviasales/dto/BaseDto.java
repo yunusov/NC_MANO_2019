@@ -7,10 +7,10 @@ import javax.persistence.Id;
 
 
 @Data
-public abstract class AbstractEntityParent {
+public abstract class BaseDto {
     int id;
 
-    public AbstractEntityParent(int id) {
+    public BaseDto(int id) {
         this.id = id;
     }
 

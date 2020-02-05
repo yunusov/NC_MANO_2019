@@ -11,7 +11,7 @@ public class TicketService {
 
     private List<TicketDto> storage = new ArrayList<>();
     private static TicketService ticketService;
-    private CityService cityService = CityService.getInstance();
+    private CityServiceLegacy cityService = CityServiceLegacy.getInstance();
     private static int nextId = 0;
 
     static {

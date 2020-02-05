@@ -1,23 +1,27 @@
 package ru.mano.aviasales.entity;
 
 import lombok.Data;
-import ru.mano.aviasales.dto.AbstractEntityParent;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 
 @Data
 @Entity
-public class Ticket {
+public class TicketEntity {
     @Id
     private int id;
-    private City from;
-    private City to;
+    @ManyToOne
+    private CityEntity from;
+    @ManyToOne
+    private CityEntity to;
     private double cost;
 
+    public TicketEntity() {
+    }
 
-    public Ticket(int id, City from, City to, double cost) {
+    public TicketEntity(int id, CityEntity from, CityEntity to, double cost) {
         this.id = id;
         this.from = from;
         this.to = to;

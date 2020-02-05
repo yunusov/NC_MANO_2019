@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Data
-public class RouteDto extends AbstractEntityParent {
+public class RouteDto extends BaseDto {
 
     private UserDto userDtoId;
     private List<TicketDto> ticketDtos = new ArrayList<>();
