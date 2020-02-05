@@ -3,20 +3,30 @@ package ru.mano.aviasales.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+//@Table(catalog = "postgres", schema = "aviato", name = "tickets")
 public class Ticket {
 
     @Id
+    @Column(name = "ticket_id")
     private long id;
+
     @Getter
     @Setter
+    @ManyToOne
+    @JoinColumn
     private City source;
+
     @Getter
     @Setter
+    @ManyToOne
+    @JoinColumn
     private City destination;
+
+    public Ticket() {
+    }
 
     public Ticket(long id, City source, City destination) {
         this.id = id;

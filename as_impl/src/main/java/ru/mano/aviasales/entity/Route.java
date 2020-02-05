@@ -3,22 +3,31 @@ package ru.mano.aviasales.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 @Entity
+//@Table(catalog = "postgres", schema = "aviato", name = "routes")
 public class Route {
 
     @Id
     private long id;
 
+    @OneToMany
+    @ElementCollection(targetClass = Ticket.class)
+    @Column
     private List<Ticket> route = new LinkedList<>();
+
     @Getter
     @Setter
-    private User owner;    //заменить int на User
+    @OneToOne
+    @JoinColumn
+    private User owner;
+
+    public Route() {
+    }
 
     public Route(long id, List<Ticket> route, User owner) {
         this.id = id;
