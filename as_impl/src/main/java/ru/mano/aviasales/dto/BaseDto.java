@@ -16,10 +16,6 @@ public abstract class BaseDto {
     public BaseDto() {
          id = UUID.randomUUID().toString();
     }
-/*
-    public BaseDto(String id) {
-        this.id = id;
-    }
-    */
+
 
 }

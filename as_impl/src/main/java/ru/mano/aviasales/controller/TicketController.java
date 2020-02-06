@@ -3,6 +3,7 @@ package ru.mano.aviasales.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.mano.aviasales.dto.TicketDto;
 import ru.mano.aviasales.service.TicketService;
@@ -10,33 +11,34 @@ import ru.mano.aviasales.service.TicketService;
 @RestController
 public class TicketController {
 
-    private TicketService ticketService = TicketService.getInstance();
+    @Autowired
+    private TicketService ticketService;
 
     @PostMapping("/ticket")
     @ApiResponses(value = {@ApiResponse(code = 202, message = "Created")})
     @ApiOperation(value = "createTicket", notes = "Ticket Controller")
-    public TicketDto createTicket(int fromId, int toId, double cost)  {
+    public TicketDto createTicket(String  fromId, String  toId, double cost)  {
         return ticketService.createTicket(fromId, toId, cost);
     }
 
     @GetMapping("/ticket")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getTicket", notes = "Ticket Controller")
-    public TicketDto getTicket(int id) {
+    public TicketDto getTicket(String id) {
             return ticketService.getTicket(id);
     }
 
     @PutMapping("/ticket")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "Accepted")})
     @ApiOperation(value = "updateTicket", notes = "Ticket Controller")
-    public TicketDto updateTicket(int id, @RequestBody TicketDto ticketDto) {
+    public TicketDto updateTicket(String id, @RequestBody TicketDto ticketDto) {
         return ticketService.updateTicket(id, ticketDto);
     }
 
     @DeleteMapping("/ticket")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "No Content")})
     @ApiOperation(value = "deleteTicket", notes = "Ticket Controller")
-    public TicketDto deleteTicket(int id) {
+    public TicketDto deleteTicket(String id) {
         return ticketService.deleteTicket(id);
     }
 
@@ -44,7 +46,7 @@ public class TicketController {
     @GetMapping("/ticket/distance")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getTicketDistanceById", notes = "Ticket Controller")
-    public double getTicketDistanceById(int id) {
+    public double getTicketDistanceById(String id) {
         return ticketService.getTicketDistanceById(id);
     }
 }

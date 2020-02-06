@@ -1,125 +1,72 @@
 package ru.mano.aviasales.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.mano.aviasales.dto.CityDto;
 import ru.mano.aviasales.dto.TicketDto;
+import ru.mano.aviasales.entity.TicketEntity;
+import ru.mano.aviasales.mapper.TicketMapper;
+import ru.mano.aviasales.repository.TicketRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class TicketService {
 
-    private List<TicketDto> storage = new ArrayList<>();
-    private static TicketService ticketService;
-    private CityServiceLegacy cityService = CityServiceLegacy.getInstance();
-    private static int nextId = 0;
+    @Autowired
+    private TicketRepository repository;
 
-    static {
-        ticketService = new TicketService();
-    }
+    @Autowired
+    private TicketMapper ticketMapper;
 
-    private TicketService(){
-    }
-
-    public static TicketService getInstance(){
-        return ticketService;
-    }
-
+    @Autowired
+    private CityService cityService;
 
     public TicketDto getTicket(String id) {
-        try {
-            return storage.stream()
-                    .filter(u -> u.getId() == id)
-                    .findAny()
-                    .orElseThrow(NoSuchElementException::new);
-        } catch (NoSuchElementException e) {
-            System.out.println( "Can\'t get Ticket with id: " + id + '\n' + e.getMessage());
-            return null;
-        }
+        Optional<TicketEntity> ticket = repository.findById(id);
+
+        TicketEntity ticketEntity = ticket.orElseThrow(IllegalArgumentException::new);
+        return ticketMapper.from(ticketEntity);
     }
 
     public TicketDto createTicket(String fromId, String toId, double cost) {
-        TicketDto ticketDto = new TicketDto(generateNewId(), cityService.getCity(fromId), cityService.getCity(toId), cost);
-        if (storage.add(ticketDto) )
-            return ticketDto;
-        else
-            System.out.println( "Can\'t add in storage new Ticket " + ticketDto);
-        return null;
+        TicketDto ticketDto = new TicketDto(cityService.getCity(fromId), cityService.getCity(toId), cost);
+        repository.save(ticketMapper.from(ticketDto));   //стоит ли проверять РК на уникальность?
 
+        return ticketDto;
     }
 
     public TicketDto createTicket(CityDto from, CityDto to, double cost) {
-        TicketDto ticketDto = new TicketDto(generateNewId(), from, to, cost);
-        if (storage.add(ticketDto) )
-            return ticketDto;
-        System.out.println( "Can\'t add in storage new Ticket " + ticketDto);
-        return null;
-    }
+        TicketDto ticketDto = new TicketDto(from, to, cost);
+        repository.save(ticketMapper.from(ticketDto));
 
-    public TicketDto updateTicket(String id, TicketDto ticketDto) {
-        // TODO: checking
-        return storage.set(id, ticketDto);
-    }
-
-    @Deprecated
-    public TicketDto updateTicketCost(String id, double cost) {
-        TicketDto ticketDto = getTicket(id);
-        if (ticketDto != null) {
-            ticketDto.setCost(cost);
-            return ticketDto;
-        }
-        System.out.println("Can\'t change cost. There is no Ticket with id " + id);
-        return null;
-    }
-
-
-    @Deprecated
-    public TicketDto updateTicketFrom(String id, int fromId) {
-        TicketDto ticketDto = getTicket(id);
-        if (ticketDto != null) {
-            ticketDto.setFrom(cityService.getCity(fromId));
-            return ticketDto;
-        }
-        System.out.println("Can\'t change City from.There is no Ticket with id " + id);
-        return null;
-    }
-
-    @Deprecated
-    public TicketDto updateTicketTo(String id, int toId) {
-        TicketDto ticketDto = getTicket(id);
-        if (ticketDto != null) {
-            ticketDto.setTo(cityService.getCity(toId));
-            return ticketDto;
-        }
-        System.out.println("Can\'t change City from.There is no Ticket with id " + id);
-        return null;
-    }
-
-    public TicketDto deleteTicket(String id) {
-        TicketDto ticketDto = getTicket(id);
-        if (ticketDto == null) {
-            System.out.println("Can\'t complete deletion, because Ticket with id " + id + " does not exists");
-            return null;
-        } else if(!storage.remove(ticketDto)) {
-            System.out.println("Can\'t complete deletion of existing Ticket ");
-            return null;
-        }
         return ticketDto;
+    }
+
+    public TicketDto updateTicket(String ticketId, TicketDto newTicket) {
+        if(ticketId != null && repository.existsById(ticketId) ) {
+            newTicket.setId(ticketId);
+            repository.deleteById(ticketId);
+            repository.save(ticketMapper.from(newTicket));
+
+            return newTicket;
+        } else
+            throw new IllegalArgumentException("Can\'t update ticket with id " + ticketId);
+    }
+
+
+    public TicketDto deleteTicket(String ticketId) {
+        if(ticketId != null) {
+            TicketDto deleted = getTicket(ticketId);
+            repository.deleteById(ticketId);
+            return deleted;
+        } else
+            return null;
     }
 
     public double getTicketDistanceById(String ticketId) {
         TicketDto ticketDto = getTicket(ticketId);
-        if (ticketDto == null) {
-            System.out.println("Can\'t compute distance, because Ticket with id " + ticketId + " does not exists");
-            return 0.0;
-        }
+
         return getDistance(ticketDto);
     }
-
-    private int generateNewId() {
-        return nextId++;
-    }
-
 
     public double getDistance (TicketDto ticketDto) {
         double resultX = ticketDto.getFrom().getX() - ticketDto.getTo().getX();

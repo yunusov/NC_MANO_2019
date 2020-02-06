@@ -13,8 +13,8 @@ public class RouteDto extends BaseDto {
     private UserDto userDtoId;
     private List<TicketDto> tickets = new ArrayList<>();
 
-    public RouteDto(String id, UserDto userDtoId, TicketDto ticketDto) {
-        super(id);
+    public RouteDto(UserDto userDtoId, TicketDto ticketDto) {
+        super();
         this.userDtoId = userDtoId;
         this.tickets.add(ticketDto);
     }

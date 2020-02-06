@@ -3,6 +3,7 @@ package ru.mano.aviasales.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.mano.aviasales.dto.UserDto;
 import ru.mano.aviasales.service.UserService;
@@ -12,7 +13,8 @@ import ru.mano.aviasales.service.UserService;
 //@RequestMapping("/")
 public class UserController {
 
-    private UserService userService = UserService.getInstance();
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/user")
     @ApiResponses(value = {@ApiResponse(code = 202, message = "Created")})
@@ -24,21 +26,21 @@ public class UserController {
     @GetMapping("/user")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getUser", notes = "User Controller")
-    public UserDto getUser(int id) {
+    public UserDto getUser(String id) {
             return userService.getUser(id); //Can return Null
     }
 
     @PutMapping("/user")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "Accepted")})
     @ApiOperation(value = "updateUserName", notes = "User Controller")
-    public UserDto updateUserName(int id, String newName) {
-        return userService.updateUsersName(id, newName);
+    public UserDto updateUserName(String id, UserDto newName) {
+        return userService.updateUser(id, newName);
     }
 
     @DeleteMapping("/user")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "No Content")})
     @ApiOperation(value = "deleteUser", notes = "User Controller")
-    public UserDto deleteUser(int id) {
+    public UserDto deleteUser(String id) {
         return userService.deleteUser(id);
     }
 

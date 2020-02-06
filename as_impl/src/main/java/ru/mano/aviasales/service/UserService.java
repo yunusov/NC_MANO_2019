@@ -1,72 +1,67 @@
 package ru.mano.aviasales.service;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.mano.aviasales.dto.CityDto;
+import ru.mano.aviasales.dto.Role;
 import ru.mano.aviasales.dto.UserDto;
+import ru.mano.aviasales.entity.CityEntity;
+import ru.mano.aviasales.entity.UserEntity;
+import ru.mano.aviasales.mapper.UserMapper;
+import ru.mano.aviasales.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class UserService {
-    private static UserService userService;
-    private ArrayList<UserDto> storage = new ArrayList<>();
-    private static int nextId = 0;
 
-    static {
-        userService = new UserService();
-    }
+    @Autowired
+    private UserRepository repository;
 
-    public static UserService getInstance() {
-        return userService;
-    }
-
-    private UserService() {
-    }
+    @Autowired
+    private UserMapper userMapper;
 
 
-    public UserDto getUser(int id) {
-        try {
-            return storage.stream()
-                    .filter(u -> u.getId() == id)
-                    .findAny()
-                    .orElseThrow(NoSuchElementException::new);
-        } catch (NoSuchElementException e) {
-            System.out.println( "Can\'t get User with id: " + id + '\n' + e.getMessage());
-            return null;
-        }
+    public UserDto getUser(String id) {
+        Optional<UserEntity> user = repository.findById(id);
+
+        UserEntity userEntity = user.orElseThrow(IllegalArgumentException::new);
+        return userMapper.from(userEntity);
     }
 
     public UserDto createUser(String name) {
-        UserDto userDto = new UserDto(generateNewId(), name, UserDto.Role.USER);
-        if (storage.add(userDto) )
-            return userDto;
-        System.out.println( "Can\'t add new User (" + userDto + ") in storage ");
-        return null;
+        UserDto userDto = new UserDto(name, Role.USER);
+        repository.save(userMapper.from(userDto));   //стоит ли проверять РК на уникальность?
 
-    }
-
-    public UserDto updateUsersName(int id, String newName) {
-        UserDto userDto = getUser(id);
-        if (userDto != null) {
-            userDto.setName(newName);
-            return userDto;
-        }
-        System.out.println("There is no user with id " + id);
-        return null;
-    }
-
-    public UserDto deleteUser(int id) {
-        UserDto userDto = getUser(id);
-        if (userDto == null) {
-            System.out.println("Can\'t complete deletion, because user with id " + id + " does not exists");
-            return null;
-        } else if(!storage.remove(userDto)) {
-            System.out.println("Can\'t complete deletion of existing user ");
-            return null;
-        }
         return userDto;
     }
 
-    private int generateNewId() {
-        return nextId++;
+    public UserDto createAdmin(String name) {
+        UserDto userDto = new UserDto(name, Role.ADMIN);
+        repository.save(userMapper.from(userDto));   //стоит ли проверять РК на уникальность?
+
+        return userDto;
     }
+
+    public UserDto updateUser(String userId, UserDto newUser) {
+        if(userId != null && repository.existsById(userId) ) {
+            newUser.setId(userId);
+            repository.deleteById(userId);
+            repository.save(userMapper.from(newUser));
+
+            return newUser;
+        } else
+            throw new IllegalArgumentException("Can\'t update user with id " + userId);
+    }
+
+    public UserDto deleteUser(String userId) {
+        if(userId != null) {
+            UserDto deleted = getUser(userId);
+            repository.deleteById(userId);
+            return deleted;
+        } else
+            return null;
+    }
+
 }

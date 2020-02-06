@@ -3,6 +3,7 @@ package ru.mano.aviasales.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.mano.aviasales.dto.RouteDto;
 import ru.mano.aviasales.service.RouteService;
@@ -10,20 +11,21 @@ import ru.mano.aviasales.service.RouteService;
 @RestController
 public class RouteController {
 
-    private RouteService routeService = RouteService.getInstance();
+    @Autowired
+    private RouteService routeService;
 
 
     @PostMapping("/route")
     @ApiResponses(value = {@ApiResponse(code = 202, message = "Created")})
     @ApiOperation(value = "createRoute", notes = "Route Controller")
-    public RouteDto createRoute(int userId, int... ticketIds)  {
+    public RouteDto createRoute(String userId, String ... ticketIds)  {
         return routeService.createRoute( userId, ticketIds);
     }
 
     @GetMapping("/route")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getRoute", notes = "Route Controller")
-    public RouteDto getRoute(int id) {
+    public RouteDto getRoute(String id) {
             return routeService.getRoute(id);
     }
 
@@ -31,7 +33,7 @@ public class RouteController {
     @DeleteMapping("/route")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "No Content")})
     @ApiOperation(value = "deleteRoute", notes = "Route Controller")
-    public RouteDto deleteRoute(int id) {
+    public RouteDto deleteRoute(String id) {
         return routeService.deleteRoute(id);
     }
 
@@ -39,23 +41,22 @@ public class RouteController {
     @PutMapping("/route")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "Accepted")})
     @ApiOperation(value = "updateRouteUser", notes = "Route Controller")
-    public RouteDto updateRouteUser(int id, @RequestBody RouteDto routeDto) {
-        return routeService.updateRouteUser(id, routeDto.getUserDtoId().getId());   //TODO: fox it
-        //return routeService.updateRouteTickets(id, index, newTicketId);
+    public RouteDto updateRoute(String id, @RequestBody RouteDto routeDto) {
+        return routeService.updateRoute(id, routeDto);
     }
 
 
     @GetMapping("/route/distance")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getRouteDistanceById", notes = "Route Controller")
-    public double getRouteDistanceById(int id) {
+    public double getRouteDistanceById(String id) {
         return routeService.getRouteDistanceById(id);
     }
 
     @GetMapping("/route/cost")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getRouteCostById", notes = "Route Controller")
-    public double getRouteCostById(int id) {
+    public double getRouteCostById(String id) {
         return routeService.getRouteCostById(id);
     }
 }

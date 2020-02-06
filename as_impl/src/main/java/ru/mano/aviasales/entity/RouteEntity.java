@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.UUID;
 
 
 @Data
@@ -23,4 +23,10 @@ public class RouteEntity {
     private UserEntity userEntity;
     @OneToMany
     private List<TicketEntity> tickets = new ArrayList<>();
+
+    public RouteEntity(UserEntity userEntity, List<TicketEntity> tickets) {
+        this.id = UUID.randomUUID().toString();
+        this.userEntity = userEntity;
+        this.tickets = tickets;
+    }
 }

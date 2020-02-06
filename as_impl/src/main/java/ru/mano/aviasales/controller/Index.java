@@ -11,7 +11,8 @@ import ru.mano.aviasales.service.TicketService;
 
 //@RestController
 public class Index {
-    private TicketService ticketService = TicketService.getInstance();
+    @Autowired
+    private TicketService ticketService;
     @Autowired
     private RestTemplate restTemplate;
 

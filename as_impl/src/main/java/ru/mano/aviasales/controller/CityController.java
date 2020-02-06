@@ -3,14 +3,16 @@ package ru.mano.aviasales.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.mano.aviasales.dto.CityDto;
-import ru.mano.aviasales.service.CityServiceLegacy;
+import ru.mano.aviasales.service.CityService;
 
 @RestController
 public class CityController {
 
-    private CityServiceLegacy cityService = CityServiceLegacy.getInstance();
+    @Autowired
+    private CityService cityService;
 
     @PostMapping("/city")
     @ApiResponses(value = {@ApiResponse(code = 202, message = "Created")})
@@ -22,21 +24,21 @@ public class CityController {
     @GetMapping("/city")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getCity", notes = "City Controller")
-    public CityDto getCity(int id) {
+    public CityDto getCity(String id) {
             return cityService.getCity(id);
     }
 
     @PutMapping("/city")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "Accepted")})
     @ApiOperation(value = "updateCity", notes = "City Controller (returns old object)")
-    public CityDto updateCity(int id, @RequestBody CityDto city) {
+    public CityDto updateCity(String id, @RequestBody CityDto city) {
         return cityService.updateCity(id, city);
     }
 
     @DeleteMapping("/city")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "No Content")})
     @ApiOperation(value = "deleteCity", notes = "City Controller")
-    public CityDto deleteCity(int id) {
+    public CityDto deleteCity(String id) {
         return cityService.deleteCity(id);
     }
 
