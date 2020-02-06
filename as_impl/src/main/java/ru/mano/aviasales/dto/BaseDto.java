@@ -1,18 +1,25 @@
 package ru.mano.aviasales.dto;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.Id;
+import java.util.UUID;
 
 
 @Data
+@AllArgsConstructor
 public abstract class BaseDto {
-    int id;
+    private String id;
 
-    public BaseDto(int id) {
+    public BaseDto() {
+         id = UUID.randomUUID().toString();
+    }
+/*
+    public BaseDto(String id) {
         this.id = id;
     }
+    */
 
-    //String name;
 }

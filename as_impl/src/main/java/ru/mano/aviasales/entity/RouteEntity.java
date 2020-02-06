@@ -1,5 +1,6 @@
 package ru.mano.aviasales.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
@@ -11,14 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Getter
+
 @Data
 @Entity
+@AllArgsConstructor
 public class RouteEntity {
     @Id
-    private int id;
+    private String id;
     @ManyToOne
     private UserEntity userEntity;
     @OneToMany
-    private List<TicketEntity> ticketEntities = new ArrayList<>();
+    private List<TicketEntity> tickets = new ArrayList<>();
 }

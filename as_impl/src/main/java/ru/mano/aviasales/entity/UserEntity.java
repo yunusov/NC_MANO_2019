@@ -1,15 +1,18 @@
 package ru.mano.aviasales.entity;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import ru.mano.aviasales.dto.Role;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@AllArgsConstructor
 public class UserEntity {
     @Id
-    private int id;
+    private String id;
 
     private String name;
 
@@ -17,6 +20,4 @@ public class UserEntity {
     private Role role;
 
 
-
-    public enum Role {USER, ADMIN}
 }

@@ -26,7 +26,7 @@ public class TicketService {
     }
 
 
-    public TicketDto getTicket(int id) {
+    public TicketDto getTicket(String id) {
         try {
             return storage.stream()
                     .filter(u -> u.getId() == id)
@@ -38,7 +38,7 @@ public class TicketService {
         }
     }
 
-    public TicketDto createTicket(int fromId, int toId, double cost) {
+    public TicketDto createTicket(String fromId, String toId, double cost) {
         TicketDto ticketDto = new TicketDto(generateNewId(), cityService.getCity(fromId), cityService.getCity(toId), cost);
         if (storage.add(ticketDto) )
             return ticketDto;
@@ -56,13 +56,13 @@ public class TicketService {
         return null;
     }
 
-    public TicketDto updateTicket(int id, TicketDto ticketDto) {
+    public TicketDto updateTicket(String id, TicketDto ticketDto) {
         // TODO: checking
         return storage.set(id, ticketDto);
     }
 
     @Deprecated
-    public TicketDto updateTicketCost(int id, double cost) {
+    public TicketDto updateTicketCost(String id, double cost) {
         TicketDto ticketDto = getTicket(id);
         if (ticketDto != null) {
             ticketDto.setCost(cost);
@@ -74,7 +74,7 @@ public class TicketService {
 
 
     @Deprecated
-    public TicketDto updateTicketFrom(int id, int fromId) {
+    public TicketDto updateTicketFrom(String id, int fromId) {
         TicketDto ticketDto = getTicket(id);
         if (ticketDto != null) {
             ticketDto.setFrom(cityService.getCity(fromId));
@@ -85,7 +85,7 @@ public class TicketService {
     }
 
     @Deprecated
-    public TicketDto updateTicketTo(int id, int toId) {
+    public TicketDto updateTicketTo(String id, int toId) {
         TicketDto ticketDto = getTicket(id);
         if (ticketDto != null) {
             ticketDto.setTo(cityService.getCity(toId));
@@ -95,7 +95,7 @@ public class TicketService {
         return null;
     }
 
-    public TicketDto deleteTicket(int id) {
+    public TicketDto deleteTicket(String id) {
         TicketDto ticketDto = getTicket(id);
         if (ticketDto == null) {
             System.out.println("Can\'t complete deletion, because Ticket with id " + id + " does not exists");
@@ -107,7 +107,7 @@ public class TicketService {
         return ticketDto;
     }
 
-    public double getTicketDistanceById(int ticketId) {
+    public double getTicketDistanceById(String ticketId) {
         TicketDto ticketDto = getTicket(ticketId);
         if (ticketDto == null) {
             System.out.println("Can\'t compute distance, because Ticket with id " + ticketId + " does not exists");

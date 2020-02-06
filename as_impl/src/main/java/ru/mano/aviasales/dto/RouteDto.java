@@ -6,40 +6,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Getter
 @Data
+@AllArgsConstructor
 public class RouteDto extends BaseDto {
 
     private UserDto userDtoId;
-    private List<TicketDto> ticketDtos = new ArrayList<>();
+    private List<TicketDto> tickets = new ArrayList<>();
 
-    public RouteDto(int id, UserDto userDtoId, TicketDto ticketDto) {
+    public RouteDto(String id, UserDto userDtoId, TicketDto ticketDto) {
         super(id);
         this.userDtoId = userDtoId;
-        this.ticketDtos.add(ticketDto);
-    }
-    public RouteDto(int id, UserDto userDtoId, List<TicketDto> ticketDtos) {
-        super(id);
-        this.userDtoId = userDtoId;
-        this.ticketDtos = ticketDtos;
+        this.tickets.add(ticketDto);
     }
 
-    public RouteDto(int id, UserDto userDtoId) {
+    public RouteDto(String id, UserDto userDtoId, List<TicketDto> tickets) {
         super(id);
+        this.userDtoId = userDtoId;
+        this.tickets = tickets;
+    }
+
+    public RouteDto(UserDto userDtoId) {
+        super();
         this.userDtoId = userDtoId;
     }
 
     public List<TicketDto> getTicketList() {
-        return ticketDtos;
+        return tickets;
     }
 
 
     public boolean addTicket(TicketDto ticketDto) {
-        return this.ticketDtos.add(ticketDto);
+        return this.tickets.add(ticketDto);
     }
 
     public boolean addTicket(List<TicketDto> ticketDtos) {
-        return this.ticketDtos.addAll(ticketDtos);
+        return this.tickets.addAll(ticketDtos);
     }
 
 }

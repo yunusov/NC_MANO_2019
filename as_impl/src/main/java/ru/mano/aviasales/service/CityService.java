@@ -14,8 +14,8 @@ import java.util.Optional;
 @Component
 public class CityService {
    @Autowired
-    private CityRepository repository;// = new ArrayList<>();
-    private static int nextId = 0;
+    private CityRepository repository;
+
 
     public CityDto getCity(String id) {
         Optional<CityEntity> city = repository.findById(id);
@@ -35,13 +35,13 @@ public class CityService {
 
     }
 
-    public CityDto updateCity(int cityId, CityDto city) {
+    public CityDto updateCity(String cityId, CityDto city) {
         //TODO: some check
         return storage.set(cityId, city);
     }
 
     @Deprecated
-    public CityDto updateCityName(int id, String newName) {
+    public CityDto updateCityName(String id, String newName) {
         CityDto city = getCity(id);
         if (city != null) {
             city.setName(newName);
@@ -52,7 +52,7 @@ public class CityService {
     }
 
     @Deprecated
-    public CityDto updateCityCoordinate(int id, double x, double y) {
+    public CityDto updateCityCoordinate(String id, double x, double y) {
         CityDto city = getCity(id);
         if (city != null) {
             city.setX(x);
@@ -64,7 +64,7 @@ public class CityService {
     }
 
 
-    public CityDto deleteCity(int id) {
+    public CityDto deleteCity(String id) {
         CityDto city = getCity(id);
         if (city == null) {
             System.out.println("Can\'t complete deletion, because city with id " + id + " does not exists");
@@ -76,7 +76,4 @@ public class CityService {
         return city;
     }
 
-    private int generateNewId() {
-        return nextId++;
-    }
 }

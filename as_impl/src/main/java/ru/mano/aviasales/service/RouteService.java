@@ -27,7 +27,7 @@ public class RouteService {
     }
 
 
-    public RouteDto getRoute(int id) {
+    public RouteDto getRoute(int String) {
         try {
             return storage.stream()
                     .filter(t -> t.getId() == id)
@@ -42,7 +42,7 @@ public class RouteService {
 
 
 
-    public RouteDto createRoute(int userId, int ticketId) {
+    public RouteDto createRoute(String userId, int ticketId) {
         UserDto userDto = userService.getUser(userId);
         if(userDto == null) {
             System.out.println("Cant\'t create Route. There is no user with id " + userId);
@@ -67,7 +67,7 @@ public class RouteService {
 
 
 
-    public RouteDto createRoute(int userId, int... ticketIds) {
+    public RouteDto createRoute(String userId, int... ticketIds) {
         UserDto userDto = userService.getUser(userId);
         if(userDto == null) {
             System.out.println("Cant\'t create Route. There is no user with id " + userId);
@@ -92,7 +92,7 @@ public class RouteService {
 
 
 
-    public RouteDto updateRouteUser(int id, int userId) {
+    public RouteDto updateRouteUser(String id, String userId) {
         RouteDto routeDto = getRoute(id);
         if (routeDto == null) {
             System.out.println("Cant\'t change Route. There is no Route with id " + id);
@@ -109,7 +109,7 @@ public class RouteService {
         return routeDto;
     }
 
-    public RouteDto updateRouteTickets(int id, int index, int newTicketId) {
+    public RouteDto updateRouteTickets(String id, int index, int newTicketId) {
         RouteDto routeDto = getRoute(id);
         if (routeDto == null) {
             System.out.println("Cant\'t change Route. There is no Route with id " + id);
@@ -129,7 +129,7 @@ public class RouteService {
         return routeDto;
     }
 
-    public RouteDto deleteRoute(int id) {
+    public RouteDto deleteRoute(String id) {
         RouteDto routeDto = getRoute(id);
         if (routeDto == null) {
             System.out.println("Can\'t complete deletion, because Route with id " + id + " does not exists");
@@ -141,7 +141,7 @@ public class RouteService {
         return routeDto;
     }
 
-    public double getRouteDistanceById(int routeId) {
+    public double getRouteDistanceById(String routeId) {
         RouteDto routeDto = getRoute(routeId);
         if (routeDto == null) {
             System.out.println("Can\'t compute distance, because Route with id " + routeId + " does not exists");
@@ -150,7 +150,7 @@ public class RouteService {
         return totalDistance(routeDto);
     }
 
-    public double getRouteCostById(int routeId) {
+    public double getRouteCostById(String routeId) {
         RouteDto routeDto = getRoute(routeId);
         if (routeDto == null) {
             System.out.println("Can\'t compute total cost, because Route with id " + routeId + " does not exists");
@@ -163,12 +163,12 @@ public class RouteService {
     }
 
     private double totalCost(RouteDto routeDto) {
-        return routeDto.getTicketDtos().stream()
+        return routeDto.getTickets().stream()
                                  .mapToDouble(TicketDto::getCost)
                                  .sum();
     }
     private double totalDistance(RouteDto routeDto) {
-        return routeDto.getTicketDtos().stream()
+        return routeDto.getTickets().stream()
                 .mapToDouble(ticketService::getDistance)
                 .sum();
     }
