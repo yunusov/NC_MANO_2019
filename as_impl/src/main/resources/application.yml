@@ -10,3 +10,4 @@ spring:
     database: POSTGRESQL
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties.hibernate.jdbc.lob.non_contextual_creation: true #it fixes Postgres Error method org.postgresql.jdbc.PgConnection.createClob() is not implemented

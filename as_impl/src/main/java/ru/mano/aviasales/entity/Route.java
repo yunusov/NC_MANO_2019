@@ -12,7 +12,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Entity
-//@Table(catalog = "postgres", schema = "aviato", name = "routes")
+@Table(catalog = "postgres", schema = "aviato", name = "routes")
 public class Route {
 
     @Id

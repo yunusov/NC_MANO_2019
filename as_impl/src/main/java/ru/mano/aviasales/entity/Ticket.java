@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-//@Table(catalog = "postgres", schema = "aviato", name = "tickets")
+@Table(catalog = "postgres", schema = "aviato", name = "tickets")
 public class Ticket {
 
     @Id
