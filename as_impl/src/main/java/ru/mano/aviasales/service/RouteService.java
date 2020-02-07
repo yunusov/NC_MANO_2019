@@ -1,6 +1,7 @@
 package ru.mano.aviasales.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.mano.aviasales.dto.RouteDto;
 import ru.mano.aviasales.dto.TicketDto;
 import ru.mano.aviasales.dto.UserDto;
@@ -14,6 +15,8 @@ import ru.mano.aviasales.repository.TicketRepository;
 
 import java.util.*;
 
+
+@Component
 public class RouteService {
 
     @Autowired

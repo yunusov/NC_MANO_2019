@@ -2,18 +2,16 @@ package ru.mano.aviasales.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.mano.aviasales.dto.CityDto;
+import org.springframework.stereotype.Component;
 import ru.mano.aviasales.dto.Role;
 import ru.mano.aviasales.dto.UserDto;
-import ru.mano.aviasales.entity.CityEntity;
 import ru.mano.aviasales.entity.UserEntity;
 import ru.mano.aviasales.mapper.UserMapper;
 import ru.mano.aviasales.repository.UserRepository;
-
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
+
+@Component
 public class UserService {
 
     @Autowired
@@ -23,12 +21,13 @@ public class UserService {
     private UserMapper userMapper;
 
 
-    public UserDto getUser(String id) {
-        Optional<UserEntity> user = repository.findById(id);
+    public UserDto getUser(String userId) {
+        Optional<UserEntity> user = repository.findById(userId);
 
         UserEntity userEntity = user.orElseThrow(IllegalArgumentException::new);
         return userMapper.from(userEntity);
     }
+
 
     public UserDto createUser(String name) {
         UserDto userDto = new UserDto(name, Role.USER);

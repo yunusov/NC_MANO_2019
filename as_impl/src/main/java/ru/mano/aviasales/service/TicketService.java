@@ -1,14 +1,16 @@
 package ru.mano.aviasales.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.mano.aviasales.dto.CityDto;
 import ru.mano.aviasales.dto.TicketDto;
 import ru.mano.aviasales.entity.TicketEntity;
 import ru.mano.aviasales.mapper.TicketMapper;
 import ru.mano.aviasales.repository.TicketRepository;
-
 import java.util.Optional;
 
+
+@Component
 public class TicketService {
 
     @Autowired
