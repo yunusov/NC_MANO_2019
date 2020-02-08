@@ -14,12 +14,12 @@ import java.util.List;
 @RequestMapping("city")
 public class CityController {
     @Autowired
-    private CityManagementService cityService;// = CityManagementService.getInstance();
+    private CityManagementService cityService;
 
     @PostMapping("createCity")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "OK")})
     @ApiOperation(value = "create", notes = "CityController")
-    public long createCity(double x, double y, String name){
+    public CityDto createCity(double x, double y, String name){
         return cityService.createCity(x, y, name);
     }
 
@@ -27,7 +27,13 @@ public class CityController {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "get", notes = "CityController")
     public CityDto getCity(long id){
-        return cityService.getCityById(id);
+        try {
+            return cityService.getCityById(id);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @GetMapping("getWithSameName")
@@ -40,15 +46,27 @@ public class CityController {
     @PutMapping("updateCoord")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "NO CONTENT")})
     @ApiOperation(value = "updateCoordinates", notes = "CityController")
-    public void updateCoordinates(long id, double newX, double newY){
-        cityService.updateCoordinates(id, newX, newY);
+    public CityDto updateCoordinates(long id, double newX, double newY){
+        CityDto update = null;
+        try {
+            update = cityService.updateCoordinates(id, newX, newY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return update;
     }
 
     @PutMapping("updateName")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "NO CONTENT")})
     @ApiOperation(value = "updateName", notes = "CityController")
-    public void updateName(long id, String newName){
-        cityService.updateName(id, newName);
+    public CityDto updateName(long id, String newName){
+        CityDto update = null;
+        try {
+            update = cityService.updateName(id, newName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return update;
     }
 
     @DeleteMapping("delete")
