@@ -1,61 +1,48 @@
 package ru.mano.aviasales.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.mano.aviasales.dto.Role;
 import ru.mano.aviasales.dto.UserDto;
+import ru.mano.aviasales.entity.User;
+import ru.mano.aviasales.mapper.UserMapper;
+import ru.mano.aviasales.repository.UserRepository;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Component
 public class UserManagementService {
 
-    private static List<UserDto> storage = new LinkedList<>();
+    @Autowired
+    private UserRepository userRepository;
     private static long nextId = 0;
-    private static UserManagementService instance;
 
-    static {
-        instance = new UserManagementService();
-    }
-
-    private UserManagementService() {
-    }
-
-    public static UserManagementService getInstance() {
-        return instance;
-    }
-
-
-    public long createUser(String name) {
+    public UserDto createUser(String name) {
         long id = generateNewId();
-        storage.add(new UserDto(id, name, Role.USER));
-        return id;
+        userRepository.save(new User(id, name, ru.mano.aviasales.entity.Role.USER));
+        return new UserDto(id, name, Role.USER);
     }
 
-    public UserDto getUser(long id) {
-        return storage.stream()
-                .filter(e -> e.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
-
-    public void updateUsersName(long id, String name) {  //пока что метод на апдейт имени пользователя, т.к. других полей нет
-        UserDto user;
-        try {
-            user = getUser(id);
-            user.setName(name);
-        } catch (NoSuchElementException e) {
-            System.out.println("There is no user with id " + id);
+    public UserDto getUser(long id) throws Exception {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return UserMapper.mapTo(user.get());
+        } else {
+            throw new Exception("User with id " + id + " not found");
         }
+    }
+
+    //TODO: fix updating!
+    public UserDto updateUsersName(long id, String name) throws Exception {
+        UserDto user = getUser(id);
+        user.setName(name);
+        //userRepository.deleteById(id);
+        userRepository.save(UserMapper.mapTo(user));
+        return user;
     }
 
     public void deleteUser(long id) {
-        Optional<UserDto> user = Optional.ofNullable(getUser(id));
-        if (user.isPresent()) {
-            storage.remove(storage.indexOf(getUser(id)));
-        } else {
-            System.out.println("Can not complete deletion, because user with id " + id + " does not exists");
-        }
+        userRepository.deleteById(id);
     }
 
     private long generateNewId() {
