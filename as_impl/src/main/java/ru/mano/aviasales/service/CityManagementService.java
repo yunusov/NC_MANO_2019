@@ -26,7 +26,7 @@ public class CityManagementService {
 
     public CityDto getCityById(long id) throws Exception {
         Optional<City> city = cityRepository.findById(id);
-        if(city.isPresent()) {
+        if (city.isPresent()) {
             return CityMapper.mapTo(city.get());
         } else {
             throw new Exception("City with id " + id + " not found");

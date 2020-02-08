@@ -19,18 +19,17 @@ public class CityController {
     @PostMapping("createCity")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "OK")})
     @ApiOperation(value = "create", notes = "CityController")
-    public CityDto createCity(double x, double y, String name){
+    public CityDto createCity(double x, double y, String name) {
         return cityService.createCity(x, y, name);
     }
 
     @GetMapping("get")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "get", notes = "CityController")
-    public CityDto getCity(long id){
+    public CityDto getCity(long id) {
         try {
             return cityService.getCityById(id);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -39,14 +38,14 @@ public class CityController {
     @GetMapping("getWithSameName")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getList", notes = "CityController")
-    public List<CityDto> getCitiesByName(String name){
+    public List<CityDto> getCitiesByName(String name) {
         return cityService.getCitiesByName(name);
     }
 
     @PutMapping("updateCoord")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "NO CONTENT")})
     @ApiOperation(value = "updateCoordinates", notes = "CityController")
-    public CityDto updateCoordinates(long id, double newX, double newY){
+    public CityDto updateCoordinates(long id, double newX, double newY) {
         CityDto update = null;
         try {
             update = cityService.updateCoordinates(id, newX, newY);
@@ -59,7 +58,7 @@ public class CityController {
     @PutMapping("updateName")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "NO CONTENT")})
     @ApiOperation(value = "updateName", notes = "CityController")
-    public CityDto updateName(long id, String newName){
+    public CityDto updateName(long id, String newName) {
         CityDto update = null;
         try {
             update = cityService.updateName(id, newName);
@@ -72,7 +71,7 @@ public class CityController {
     @DeleteMapping("delete")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "delete", notes = "CityController")
-    public void delete(long id){
+    public void delete(long id) {
         cityService.delete(id);
     }
 }

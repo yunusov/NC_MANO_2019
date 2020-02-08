@@ -28,7 +28,8 @@ public class City {
     @Column
     private String name;
 
-    public City() {}
+    public City() {
+    }
 
     public City(long id, double x, double y, String name) {
         this.x = x;
