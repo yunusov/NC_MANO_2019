@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Welcome to Aviato!</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Cairo', sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+            .ylw-stripe {
+                height: 20px;
+                width: 100%;
+                background-color: #ffcc33;
+            }
+            .blu-stripe {
+                height: 20px;
+                width: 100%;
+                background-color: #0066ff;
+            }
+            .logo-container {
+                height: 150px;
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                background-color: #ffffff;
+            }
+            .logo-container img {
+                margin-top: 10px;
+            }
+            .inside-main {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-height: 450px;
+                width: 100%;
+                background-color: #0066ff;
+            }
+            .main-form {
+                margin-top: 60px;
+                display: flex;
+            }
+            label {
+                margin-left: 20px;
+                font-size: 24px;
+                color: #ffffff;
+            }
+            .input-container {
+                display: flex;
+                flex-direction: column;
+            }
+            input {
+                height: 40px;
+                width: 250px;
+                font-size: 24px;
+                text-align: center;
+                border: none;
+                text-decoration: none;
+                outline: none;
+            }
+            #input-from {
+                border-radius: 50px 0px 0px 50px;
+                border-right: 2px solid #0066ff;
+            }
+            #input-when {
+                border-radius: 0px 50px 50px 0px;
+                border-left: 2px solid #0066ff;
+            }
+            button.btn-search {
+                margin-top: 50px;
+                height: 40px;
+                width: 200px;
+                border: none;
+                border-radius: 50px;
+                font-size: 24px;
+                color: #ffffff;
+                background-color: #ffcc33;
+                cursor: pointer;
+            }
+            button.btn-search:hover,
+            button.btn-search:focus {
+                color: #0066ff;
+                background-color: #ffffff;
+            }
+            .blc-stripe {
+                height: 25px;
+                width: 100%;
+                text-align: center;
+                color: #ffffff;
+                background-color: #000000;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class ="ylw-stripe"></div>
+            <div class ="blu-stripe"></div>
+            <div class ="logo-container">
+                <img th:src="@{/img/blue-plane-logo.png}" width="200" height="128" alt="logo"/>
+                <h1>Welcome to Aviato!</h1>
+            </div>
+        </header>
+        <main>
+            <div class="inside-main">
+                <form name="main-form" class="main-form">
+                    <div class="input-container">
+                        <label for="input-from">From</label>
+                        <input type="text" id="input-from">
+                    </div>
+                    <div class="input-container">
+                        <label for="input-to">To</label>
+                        <input type="text" id="input-to">
+                    </div>
+                    <div class="input-container">
+                        <label for="input-when">When</label>
+                        <input type="text" id="input-when">
+                    </div>
+                </form>
+                <button class="btn-search">Search</button>
+            </div>
+        </main>
+        <footer>
+            <div class ="blc-stripe">&#169; 2020 Netcracker</div>
+        </footer>
+    </body>
+</html>
