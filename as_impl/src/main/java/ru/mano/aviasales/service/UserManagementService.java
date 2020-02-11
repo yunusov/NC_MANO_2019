@@ -32,13 +32,15 @@ public class UserManagementService {
         }
     }
 
-    //TODO: fix updating!
     public UserDto updateUsersName(long id, String name) throws Exception {
-        UserDto user = getUser(id);
-        user.setName(name);
-        //userRepository.deleteById(id);
-        userRepository.save(UserMapper.mapTo(user));
-        return user;
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            user.get().setName(name);
+            userRepository.save(user.get());
+            return UserMapper.mapTo(user.get());
+        } else {
+            return null;
+        }
     }
 
     public void deleteUser(long id) {

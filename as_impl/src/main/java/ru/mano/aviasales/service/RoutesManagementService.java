@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class RoutesManagementService {
 
     @Autowired
-    RouteRepository routeRepository;
+    private RouteRepository routeRepository;
 
     private static long nextId;
 
