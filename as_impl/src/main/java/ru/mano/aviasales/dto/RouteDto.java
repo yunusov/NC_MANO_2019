@@ -13,10 +13,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class RouteDto extends BaseEntityDto {
+
     private List<TicketDto> route = new LinkedList<>();
-    @Getter
-    @Setter
-    private UserDto owner;    //заменить int на UserDto
+    private UserDto owner;
 
     public RouteDto(long id, List<TicketDto> route, UserDto owner) {
         this.id = id;
@@ -52,10 +51,10 @@ public class RouteDto extends BaseEntityDto {
         return id;
     }
 
-    public RouteDto() {
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public UserDto getOwner() {
-        return owner;
+    public RouteDto() {
     }
 }

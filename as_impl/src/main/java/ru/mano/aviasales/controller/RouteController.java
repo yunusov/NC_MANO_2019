@@ -3,6 +3,7 @@ package ru.mano.aviasales.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.mano.aviasales.dto.RouteDto;
 import ru.mano.aviasales.dto.TicketDto;
@@ -14,12 +15,14 @@ import java.util.List;
 @RestController
 @RequestMapping("routes")
 public class RouteController {
-    private RoutesManagementService routeService = RoutesManagementService.getInstance();
+
+    @Autowired
+    private RoutesManagementService routeService;
 
     @PostMapping("create")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "OK")})
     @ApiOperation(value = "createRoute", notes = "RouteController")
-    public long createRoute(List<TicketDto> tickets, UserDto owner) {
+    public RouteDto createRoute(List<TicketDto> tickets, UserDto owner) {
         return routeService.createRoute(tickets, owner);
     }
 

@@ -1,74 +1,72 @@
 package ru.mano.aviasales.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.mano.aviasales.dto.RouteDto;
 import ru.mano.aviasales.dto.TicketDto;
 import ru.mano.aviasales.dto.UserDto;
+import ru.mano.aviasales.entity.Route;
+import ru.mano.aviasales.mapper.RouteMapper;
+import ru.mano.aviasales.mapper.TicketMapper;
+import ru.mano.aviasales.mapper.UserMapper;
+import ru.mano.aviasales.repository.RouteRepository;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Component
 public class RoutesManagementService {
 
-    private static List<RouteDto> routesStorage = new LinkedList<>();
+    @Autowired
+    RouteRepository routeRepository;
+
     private static long nextId;
-    private static RoutesManagementService instance;
 
-    static {
-        instance = new RoutesManagementService();
-    }
-
-    private RoutesManagementService() {
-    }
-
-    public static RoutesManagementService getInstance() {
-        return instance;
-    }
-
-    public long createRoute(List<TicketDto> list, UserDto owner) {
+    public RouteDto createRoute(List<TicketDto> list, UserDto owner) {
         long id = generateNewId();
-        routesStorage.add(new RouteDto(id, list, owner));
-        return id;
+        RouteDto route = new RouteDto(id, list, owner);
+        routeRepository.save(RouteMapper.mapTo(route));
+        return route;
     }
 
     public RouteDto getRoute(long id) {
-        return routesStorage.stream()
-                .filter(route -> route.getId() == id)
-                .findAny().get();
+        return RouteMapper.mapTo(routeRepository.findById(id).orElse(null));
     }
 
     public List<RouteDto> getUsersRoutes(UserDto owner) {
-        List<RouteDto> result = new LinkedList<>();
-        for (RouteDto r : routesStorage) {
-            if (r.getOwner().getId() == owner.getId()) {
-                result.add(r);
-            }
-        }
-        return result;
+        return routeRepository.findByUser(UserMapper.mapTo(owner))
+                .stream().map(RouteMapper::mapTo)
+                .collect(Collectors.toList());
     }
 
     public void addTicketInRoute(long id, TicketDto ticket) {
-        Optional<RouteDto> route = Optional.ofNullable(getRoute(id));
-        route.ifPresent(route1 -> route1.addNextRoot(ticket));
+        Optional<Route> route = routeRepository.findById(id);
+        route.ifPresent(route1 -> {
+            route1.addNextRoot(TicketMapper.mapTo(ticket));
+            routeRepository.save(route1);
+        });
     }
 
     public void addTicketAtIndex(long id, int index, TicketDto ticket) {
-        Optional<RouteDto> route = Optional.ofNullable(getRoute(id));
-        route.ifPresent(route1 -> route1.addRootAtIndex(ticket, index));
+        Optional<Route> route = routeRepository.findById(id);
+        route.ifPresent(route1 -> {
+            route1.addRootAtIndex(TicketMapper.mapTo(ticket), index);
+            routeRepository.save(route1);
+        });
     }
 
     public void deleteTicketFromRoute(long id, TicketDto ticket) {
-        Optional<RouteDto> route = Optional.ofNullable(getRoute(id));
-        route.ifPresent(route1 -> route1.deleteRoot(ticket));
+        Optional<Route> route = routeRepository.findById(id);
+        route.ifPresent(route1 -> {
+            route1.deleteRoot(TicketMapper.mapTo(ticket));
+            routeRepository.save(route1);
+        });
     }
 
     public void deleteRoute(long id) {
-        Optional<RouteDto> route = Optional.ofNullable(getRoute(id));
-        if (route.isPresent()) {
-            routesStorage.remove(routesStorage.indexOf(getRoute(id)));
-        } else {
-            System.out.println("Can not complete deletion, because user with id " + id + " does not exists");
-        }
+        routeRepository.deleteById(id);
     }
 
     private long generateNewId() {

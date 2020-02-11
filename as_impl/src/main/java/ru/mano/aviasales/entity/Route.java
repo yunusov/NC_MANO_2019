@@ -1,6 +1,7 @@
 package ru.mano.aviasales.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import ru.mano.aviasales.dto.RouteDto;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+@Data
 @AllArgsConstructor
 @Entity
 @Table(catalog = "postgres", schema = "aviato", name = "routes")
@@ -23,8 +25,6 @@ public class Route {
     @Column
     private List<Ticket> route = new LinkedList<>();
 
-    @Getter
-    @Setter
     @OneToOne
     @JoinColumn
     private User owner;
