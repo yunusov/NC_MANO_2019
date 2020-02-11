@@ -34,7 +34,7 @@ public class CityManagementService {
     }
 
     public List<CityDto> getCitiesByName(String name) {
-        return cityRepository.findAll().stream().
+        return cityRepository.findAll().stream(). //TODO: create new method findByName in cityRepository and replace findAll() with it
                 filter(city -> city.getName().equals(name)).
                 map(CityMapper::mapTo).
                 collect(Collectors.toList());

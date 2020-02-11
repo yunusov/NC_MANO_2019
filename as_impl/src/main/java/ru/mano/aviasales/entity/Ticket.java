@@ -1,10 +1,12 @@
 package ru.mano.aviasales.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+@AllArgsConstructor
 @Entity
 @Table(catalog = "postgres", schema = "aviato", name = "tickets")
 public class Ticket {
@@ -26,12 +28,6 @@ public class Ticket {
     private City destination;
 
     public Ticket() {
-    }
-
-    public Ticket(long id, City source, City destination) {
-        this.id = id;
-        this.source = source;
-        this.destination = destination;
     }
 
     public long getId() {

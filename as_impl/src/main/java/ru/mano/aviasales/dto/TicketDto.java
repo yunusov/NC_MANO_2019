@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class TicketDto extends BaseEntityDto {
+
     @Getter
     @Setter
     private CityDto source;
@@ -11,18 +12,18 @@ public class TicketDto extends BaseEntityDto {
     @Setter
     private CityDto destination;
 
-    public TicketDto(long id, CityDto source, CityDto destination) {
-        this.id = id;
-        this.source = source;
-        this.destination = destination;
-    }
-
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public TicketDto(long id, CityDto source, CityDto destination) {
+        super(id);
+        this.source = source;
+        this.destination = destination;
     }
 
     @Override

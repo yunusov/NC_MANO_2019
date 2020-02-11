@@ -1,10 +1,10 @@
 package ru.mano.aviasales.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
+@AllArgsConstructor
 @Entity
 @Table(catalog = "postgres", schema = "aviato", name = "cities")
 public class City {
@@ -29,13 +29,6 @@ public class City {
     private String name;
 
     public City() {
-    }
-
-    public City(long id, double x, double y, String name) {
-        this.x = x;
-        this.y = y;
-        this.name = name;
-        this.id = id;
     }
 
     public long getId() {

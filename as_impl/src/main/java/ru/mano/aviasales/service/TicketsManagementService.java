@@ -1,102 +1,90 @@
 package ru.mano.aviasales.service;
 
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.mano.aviasales.dto.CityDto;
 import ru.mano.aviasales.dto.TicketDto;
+import ru.mano.aviasales.entity.Ticket;
+import ru.mano.aviasales.mapper.CityMapper;
+import ru.mano.aviasales.mapper.TicketMapper;
+import ru.mano.aviasales.repository.TicketRepository;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
 public class TicketsManagementService {
 
-    private static List<TicketDto> ticketsStorage = new LinkedList<>();
+    @Autowired
+    private TicketRepository ticketRepository;
     private static long nextId = 0;
-    private static TicketsManagementService instance;
 
-    static {
-        instance = new TicketsManagementService();
-    }
-
-    private TicketsManagementService() {
-    }
-
-    public static TicketsManagementService getInstance() {
-        return instance;
-    }
-
-    public long createTicket(CityDto source, CityDto destination) {
+    public TicketDto createTicket(CityDto source, CityDto destination) {
         long id = generateNewId();
-        ticketsStorage.add(new TicketDto(id, source, destination));
-        return id;
+        Ticket t = new Ticket(id, CityMapper.mapTo(source), CityMapper.mapTo(destination));
+        ticketRepository.save(t);
+        return TicketMapper.mapTo(t);
     }
 
-    public void updateTicket(long id, CityDto newSource, CityDto newDestination) {
-        TicketDto ticket = getTicketById(id);
-        ticket.setSource(newSource);
-        ticket.setDestination(newDestination);
+    public TicketDto updateTicket(long id, CityDto newSource, CityDto newDestination) throws Exception {
+        Ticket ticket = ticketRepository.getOne(id);
+        ticket.setSource(CityMapper.mapTo(newSource));
+        ticket.setDestination(CityMapper.mapTo(newDestination));
+        ticketRepository.save(ticket);
+        return TicketMapper.mapTo(ticket);
     }
 
-    public void updateTickets(CityDto source, CityDto destination, CityDto newSource, CityDto newDestination) {
-        //1 способ
-        List<TicketDto> list = getTickets(source, destination);
-        for (TicketDto t : list) {
-            t.setSource(newSource);
-            t.setDestination(newDestination);
-        }
+    public List<TicketDto> updateTickets(CityDto source, CityDto destination, CityDto newSource, CityDto newDestination) {
+        List<Ticket> tickets =
+        ticketRepository.findBySourceAndDestination(
+                CityMapper.mapTo(source),
+                CityMapper.mapTo(destination));
 
-        //2 способ
-        /*TicketDto ticket = new TicketDto(0, source, destination);
-        ticketsStorage.forEach(t -> {
-            if (t.equals(ticket)) {
-                t.setSource(newSource);
-                t.setDestination(newDestination);
-            }
-        });*/
-    }
-
-    public void updateTickets(List<Long> ids, CityDto newSource, CityDto newDestination) {
-        ticketsStorage.forEach(ticket -> {
-            if (ids.contains(ticket.getId())) {
-                ticket.setSource(newSource);
-                ticket.setDestination(newDestination);
-            }
+        tickets.forEach(ticket -> {
+            ticket.setDestination(CityMapper.mapTo(newDestination));
+            ticket.setSource(CityMapper.mapTo(newSource));
         });
+
+        ticketRepository.saveAll(tickets);
+        return tickets.stream().map(TicketMapper::mapTo).collect(Collectors.toList());
+    }
+
+    public List<TicketDto> updateTickets(List<Long> ids, CityDto newSource, CityDto newDestination) {
+        List<Ticket> tickets = ticketRepository.findAllById(ids);
+
+        tickets.forEach(ticket -> {
+            ticket.setDestination(CityMapper.mapTo(newDestination));
+            ticket.setSource(CityMapper.mapTo(newSource));
+        });
+
+        ticketRepository.saveAll(tickets);
+        return tickets.stream().map(TicketMapper::mapTo).collect(Collectors.toList());
     }
 
     public List<TicketDto> getTickets(CityDto source, CityDto destination) {
-        //1 способ
-        return ticketsStorage.stream()
-                .filter(t ->
-                        t.getDestination().equals(destination) &&
-                                t.getSource().equals(source))
+        return ticketRepository.findBySourceAndDestination(CityMapper.mapTo(source), CityMapper.mapTo(destination))
+                .stream().map(TicketMapper::mapTo)
                 .collect(Collectors.toList());
-        //2 способ
-        /*TicketDto ticket = new TicketDto(source, destination);
-        return ticketsStorage.stream()
-                .filter(t -> t.equals(ticket))
-                .collect(Collectors.toList());*/
     }
 
-    public TicketDto getTicketById(long id) {
-        return ticketsStorage.stream()
-                .filter(t ->
-                        t.getId() == id)
-                .findAny().get();
-    }
-
-    public void deleteTickets(CityDto source, CityDto destination) {
-        Iterator<TicketDto> it = ticketsStorage.iterator();
-        TicketDto ticket = new TicketDto(0, source, destination);
-        while (it.hasNext()) {
-            if (it.next().equals(ticket)) {
-                it.remove();
-            }
+    public TicketDto getTicketById(long id) throws Exception {
+        Optional<Ticket> ticket = ticketRepository.findById(id);
+        if (ticket.isPresent()) {
+            return TicketMapper.mapTo(ticket.get());
+        } else {
+            throw new Exception("Ticket with id " + id + " not found");
         }
     }
 
-    public void deleteTicketsById(long id) {
-        ticketsStorage.removeIf(ticket -> ticket.getId() == id);
+    public void deleteTickets(CityDto source, CityDto destination) {
+        ticketRepository.deleteBySourceAndDestination(
+                CityMapper.mapTo(source),
+                CityMapper.mapTo(destination));
+    }
+
+    public void deleteTicketById(long id) {
+        ticketRepository.deleteById(id);
     }
 
     private long generateNewId() {
