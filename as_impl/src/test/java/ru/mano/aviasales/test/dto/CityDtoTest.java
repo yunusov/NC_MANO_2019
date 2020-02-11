@@ -24,4 +24,15 @@ public class CityDtoTest {
         //Assert.assertEquals(2, dto.getY());
         Assert.assertEquals("new_city", dto.getName());
     }
+
+    @Test
+    public void settersTest() throws Exception {
+        CityDto dto = new CityDto(0, 1, 2, "old_city");
+        dto.setId(1);
+        dto.setName("new_city");
+        Assert.assertEquals(1, dto.getId());
+        Assert.assertEquals("new_city", dto.getName());
+    }
+
+
 }
