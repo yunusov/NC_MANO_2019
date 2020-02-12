@@ -33,8 +33,8 @@ public class RouteController {
     @DeleteMapping("/route")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "No Content")})
     @ApiOperation(value = "deleteRoute", notes = "Route Controller")
-    public RouteDto deleteRoute(String id) {
-        return routeService.deleteRoute(id);
+    public void deleteRoute(String id) {
+          routeService.deleteRoute(id);
     }
 
 

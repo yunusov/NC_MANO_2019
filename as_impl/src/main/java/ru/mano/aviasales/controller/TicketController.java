@@ -38,8 +38,8 @@ public class TicketController {
     @DeleteMapping("/ticket")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "No Content")})
     @ApiOperation(value = "deleteTicket", notes = "Ticket Controller")
-    public TicketDto deleteTicket(String id) {
-        return ticketService.deleteTicket(id);
+    public void deleteTicket(String id) {
+          ticketService.deleteTicket(id);
     }
 
 

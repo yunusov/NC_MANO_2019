@@ -40,8 +40,8 @@ public class UserController {
     @DeleteMapping("/user")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "No Content")})
     @ApiOperation(value = "deleteUser", notes = "User Controller")
-    public UserDto deleteUser(String id) {
-        return userService.deleteUser(id);
+    public void deleteUser(String id) {
+         userService.deleteUser(id);
     }
 
 

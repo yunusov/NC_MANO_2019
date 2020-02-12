@@ -20,13 +20,10 @@ import ru.mano.aviasales.service.UserService;
 public class UserTest {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    UserMapper userMapper;
+    private UserRepository userRepository;
 
 
     @Test
@@ -38,7 +35,6 @@ public class UserTest {
 
     @Test
     public void updateUser(){
-        //String firstUserId = userRepository.findAll().get(0).getId();
         UserDto oldUser = userService.createAdmin("Tim");
         UserDto newUser = new UserDto("Anna", Role.ADMIN);
 

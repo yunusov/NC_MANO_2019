@@ -38,8 +38,8 @@ public class CityController {
     @DeleteMapping("/city")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "No Content")})
     @ApiOperation(value = "deleteCity", notes = "City Controller")
-    public CityDto deleteCity(String id) {
-        return cityService.deleteCity(id);
+    public void deleteCity(String id) {
+         cityService.deleteCity(id);
     }
 
 

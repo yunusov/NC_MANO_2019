@@ -19,10 +19,10 @@ public class TicketEntity {
     @ManyToOne
     private CityEntity to;
     private double cost;
-/*
+
     public TicketEntity() {
     }
-
+/*
     public TicketEntity(String id, CityEntity from, CityEntity to, double cost) {
         this.id = id;
         this.from = from;

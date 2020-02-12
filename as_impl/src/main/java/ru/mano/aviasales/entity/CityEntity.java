@@ -18,7 +18,8 @@ public class CityEntity {
     private String name;
     private double x, y;
 
-
+    public CityEntity() {
+    }
 }
 
 

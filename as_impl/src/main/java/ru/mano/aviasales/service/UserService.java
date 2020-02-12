@@ -31,36 +31,35 @@ public class UserService {
 
     public UserDto createUser(String name) {
         UserDto userDto = new UserDto(name, Role.USER);
-        repository.save(userMapper.from(userDto));   //стоит ли проверять РК на уникальность?
+        UserEntity userEntity = repository.save(userMapper.from(userDto));
 
-        return userDto;
+        return userMapper.from(userEntity);
     }
 
     public UserDto createAdmin(String name) {
         UserDto userDto = new UserDto(name, Role.ADMIN);
-        repository.save(userMapper.from(userDto));   //стоит ли проверять РК на уникальность?
+        UserEntity userEntity = repository.save(userMapper.from(userDto));
 
-        return userDto;
+        return userMapper.from(userEntity);
     }
 
     public UserDto updateUser(String userId, UserDto newUser) {
         if(userId != null && repository.existsById(userId) ) {
             newUser.setId(userId);
-            repository.deleteById(userId);
-            repository.save(userMapper.from(newUser));
+            UserEntity userEntity = repository.save(userMapper.from(newUser));
 
-            return newUser;
-        } else
+            return userMapper.from((userEntity));
+        } else {
             throw new IllegalArgumentException("Can\'t update user with id " + userId);
+        }
     }
 
-    public UserDto deleteUser(String userId) {
+    public void deleteUser(String userId) {
         if(userId != null) {
-            UserDto deleted = getUser(userId);
             repository.deleteById(userId);
-            return deleted;
-        } else
-            return null;
+        } else {
+            throw new IllegalArgumentException("Can\'t delete user " );
+        }
     }
 
 }

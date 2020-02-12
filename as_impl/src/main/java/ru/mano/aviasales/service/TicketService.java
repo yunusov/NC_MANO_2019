@@ -24,44 +24,43 @@ public class TicketService {
 
     public TicketDto getTicket(String id) {
         Optional<TicketEntity> ticket = repository.findById(id);
-
         TicketEntity ticketEntity = ticket.orElseThrow(IllegalArgumentException::new);
+
         return ticketMapper.from(ticketEntity);
     }
 
     public TicketDto createTicket(String fromId, String toId, double cost) {
         TicketDto ticketDto = new TicketDto(cityService.getCity(fromId), cityService.getCity(toId), cost);
-        repository.save(ticketMapper.from(ticketDto));   //стоит ли проверять РК на уникальность?
+        TicketEntity ticketEntity = repository.save(ticketMapper.from(ticketDto));
 
-        return ticketDto;
+        return ticketMapper.from(ticketEntity);
     }
 
     public TicketDto createTicket(CityDto from, CityDto to, double cost) {
         TicketDto ticketDto = new TicketDto(from, to, cost);
-        repository.save(ticketMapper.from(ticketDto));
+        TicketEntity ticketEntity = repository.save(ticketMapper.from(ticketDto));
 
-        return ticketDto;
+        return ticketMapper.from(ticketEntity);
     }
 
     public TicketDto updateTicket(String ticketId, TicketDto newTicket) {
         if(ticketId != null && repository.existsById(ticketId) ) {
             newTicket.setId(ticketId);
-            repository.deleteById(ticketId);
-            repository.save(ticketMapper.from(newTicket));
+            TicketEntity ticketEntity = repository.save(ticketMapper.from(newTicket));
 
-            return newTicket;
-        } else
+            return ticketMapper.from(ticketEntity);
+        } else {
             throw new IllegalArgumentException("Can\'t update ticket with id " + ticketId);
+        }
     }
 
 
-    public TicketDto deleteTicket(String ticketId) {
+    public void deleteTicket(String ticketId) {
         if(ticketId != null) {
-            TicketDto deleted = getTicket(ticketId);
             repository.deleteById(ticketId);
-            return deleted;
-        } else
-            return null;
+        } else {
+            throw new IllegalArgumentException("Can\'t delete ticket");
+        }
     }
 
     public double getTicketDistanceById(String ticketId) {

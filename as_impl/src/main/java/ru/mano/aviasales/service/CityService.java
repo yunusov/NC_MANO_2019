@@ -30,30 +30,30 @@ public class CityService {
 
     public CityDto createCity(String name, double x, double y) {
         CityDto city = new CityDto(name, x, y);
-        repository.save(cityMapper.from(city));   //стоит ли проверять РК на уникальность?
+        CityEntity cityEntity = repository.save(cityMapper.from(city));//TODO:
 
-        return city;
+        return cityMapper.from(cityEntity);
     }
 
     public CityDto updateCity(String cityId, CityDto city) {
         if(cityId != null && repository.existsById(cityId) ) {
             city.setId(cityId);
-            repository.deleteById(cityId);
-            repository.save(cityMapper.from(city));
+            CityEntity cityEntity = repository.save(cityMapper.from(city));
 
-            return city;
-        } else
+            return cityMapper.from(cityEntity); //TODO:
+        } else {
             throw new IllegalArgumentException("Can\'t update city with id " + cityId);
+        }
     }
 
 
 
-    public CityDto deleteCity(String id) {
+    public void deleteCity(String id) {
         if(id != null) {
-            CityDto deleted = getCity(id);
             repository.deleteById(id);
-            return deleted;
-        } else
-            return null;
+        } else {
+            throw new IllegalArgumentException("Can\'t delete city"); //TODO:
+        }
+
     }
 }

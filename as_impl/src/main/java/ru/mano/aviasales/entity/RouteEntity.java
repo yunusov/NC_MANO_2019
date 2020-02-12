@@ -24,6 +24,9 @@ public class RouteEntity {
     @OneToMany
     private List<TicketEntity> tickets = new ArrayList<>();
 
+    public RouteEntity() {
+    }
+
     public RouteEntity(UserEntity userEntity, List<TicketEntity> tickets) {
         this.id = UUID.randomUUID().toString();
         this.userEntity = userEntity;

@@ -51,9 +51,9 @@ public class RouteService {
 
     public RouteDto createRoute(String userId, String ticketId) {
         RouteDto routeDto = new RouteDto(userService.getUser(userId), ticketService.getTicket(ticketId));
-        routeRepository.save(routeMapper.from(routeDto));
+        RouteEntity routeEntity = routeRepository.save(routeMapper.from(routeDto));
 
-        return routeDto;
+        return routeMapper.from(routeEntity);
     }
 
 
@@ -62,30 +62,29 @@ public class RouteService {
         List<TicketEntity> list = ticketRepository.findAllById(Arrays.asList(ticketIds));
 
         RouteEntity routeEntity = new RouteEntity(userMapper.from(userService.getUser(userId)), list);
-        routeRepository.save(routeEntity);
+        RouteEntity returnEntity = routeRepository.save(routeEntity);
 
-        return routeMapper.from(routeEntity);
+        return routeMapper.from(returnEntity);
     }
 
 
     public RouteDto updateRoute(String routeId, RouteDto  newRoute) {
         if(routeId != null && routeRepository.existsById(routeId) ) {
             newRoute.setId(routeId);
-            routeRepository.deleteById(routeId);
-            routeRepository.save(routeMapper.from(newRoute));
+            RouteEntity routeEntity = routeRepository.save(routeMapper.from(newRoute));
 
-            return newRoute;
-        } else
+            return routeMapper.from(routeEntity);
+        } else {
             throw new IllegalArgumentException("Can\'t update route with id " + routeId);
+        }
     }
 
-    public RouteDto deleteRoute(String routeId) {
+    public void deleteRoute(String routeId) {
         if(routeId != null) {
-            RouteDto deleted = getRoute(routeId);
             routeRepository.deleteById(routeId);
-            return deleted;
-        } else
-            return null;
+        } else {
+            throw new IllegalArgumentException("Can\'t delete route");
+        }
     }
 
     public double getRouteDistanceById(String routeId) {
