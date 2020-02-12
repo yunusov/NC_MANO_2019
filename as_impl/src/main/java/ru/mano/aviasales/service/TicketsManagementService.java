@@ -1,6 +1,5 @@
 package ru.mano.aviasales.service;
 
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.mano.aviasales.dto.CityDto;
@@ -37,9 +36,9 @@ public class TicketsManagementService {
 
     public List<TicketDto> updateTickets(CityDto source, CityDto destination, CityDto newSource, CityDto newDestination) {
         List<Ticket> tickets =
-        ticketRepository.findBySourceAndDestination(
-                CityMapper.mapTo(source),
-                CityMapper.mapTo(destination));
+                ticketRepository.findBySourceAndDestination(
+                        CityMapper.mapTo(source),
+                        CityMapper.mapTo(destination));
 
         tickets.forEach(ticket -> {
             ticket.setDestination(CityMapper.mapTo(newDestination));

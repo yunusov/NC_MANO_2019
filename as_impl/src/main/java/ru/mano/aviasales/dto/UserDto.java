@@ -1,14 +1,11 @@
 package ru.mano.aviasales.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 public class UserDto extends BaseEntityDto {
-    @Getter
-    @Setter
+
     private String name;
-    @Getter
-    @Setter
     private Role role;
 
     public UserDto(long id, String name, Role role) {

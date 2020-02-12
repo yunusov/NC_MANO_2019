@@ -1,5 +1,7 @@
 package ru.mano.aviasales.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@AllArgsConstructor
+@Data
 @Entity
 @Table(catalog = "postgres", schema = "aviato", name = "users")
 public class User {
@@ -15,22 +19,12 @@ public class User {
     @Id
     private long id;
 
-    @Getter
-    @Setter
     @Column
     private String name;
 
-    @Getter
-    @Setter
     private Role role;
 
     public User() {
-    }
-
-    public User(long id, String name, Role role) {
-        this.id = id;
-        this.name = name;
-        this.role = role;
     }
 
     public long getId() {

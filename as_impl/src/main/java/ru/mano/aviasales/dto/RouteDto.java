@@ -1,17 +1,11 @@
 package ru.mano.aviasales.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import ru.mano.aviasales.entity.Route;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 public class RouteDto extends BaseEntityDto {
 
     private List<TicketDto> route = new LinkedList<>();
@@ -21,14 +15,6 @@ public class RouteDto extends BaseEntityDto {
         this.id = id;
         this.route = new LinkedList<>(route);
         this.owner = owner;
-    }
-
-    public RouteDto(long id, List<TicketDto> route) {
-        this(id, route, null);
-    }
-
-    public RouteDto(long id, TicketDto[] tickets) {
-        this(id, new LinkedList<>(Arrays.asList(tickets)), null);
     }
 
     public List<TicketDto> getRoute() {

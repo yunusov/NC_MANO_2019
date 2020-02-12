@@ -1,12 +1,14 @@
 package ru.mano.aviasales.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @AllArgsConstructor
+@Data
 @Entity
 @Table(catalog = "postgres", schema = "aviato", name = "tickets")
 public class Ticket {
@@ -15,27 +17,15 @@ public class Ticket {
     @Column(name = "ticket_id")
     private long id;
 
-    @Getter
-    @Setter
     @ManyToOne
     @JoinColumn
     private City source;
 
-    @Getter
-    @Setter
     @ManyToOne
     @JoinColumn
     private City destination;
 
     public Ticket() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     @Override

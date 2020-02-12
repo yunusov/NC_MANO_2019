@@ -1,17 +1,12 @@
 package ru.mano.aviasales.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 public class CityDto extends BaseEntityDto {
-    @Getter
-    @Setter
+
     private double x;
-    @Getter
-    @Setter
     private double y;
-    @Getter
-    @Setter
     private String name;
 
     public CityDto(long id, double x, double y, String name) {

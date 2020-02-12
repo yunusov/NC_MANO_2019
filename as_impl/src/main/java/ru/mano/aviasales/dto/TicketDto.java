@@ -1,15 +1,11 @@
 package ru.mano.aviasales.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 public class TicketDto extends BaseEntityDto {
 
-    @Getter
-    @Setter
     private CityDto source;
-    @Getter
-    @Setter
     private CityDto destination;
 
     public long getId() {

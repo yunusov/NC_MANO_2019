@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.mano.aviasales.dto.CityDto;
 import ru.mano.aviasales.dto.TicketDto;
-import ru.mano.aviasales.entity.Ticket;
 import ru.mano.aviasales.service.TicketsManagementService;
 
 import java.util.List;

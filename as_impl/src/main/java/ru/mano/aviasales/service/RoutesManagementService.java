@@ -11,7 +11,6 @@ import ru.mano.aviasales.mapper.TicketMapper;
 import ru.mano.aviasales.mapper.UserMapper;
 import ru.mano.aviasales.repository.RouteRepository;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
