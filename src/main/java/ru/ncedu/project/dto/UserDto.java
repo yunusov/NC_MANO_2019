@@ -1,7 +1,9 @@
 package ru.ncedu.project.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class UserDto extends AbstractEntityParent {
     private String name;

@@ -29,7 +29,7 @@ public class CityService {
                     .findAny()
                     .orElseThrow(NoSuchElementException::new);
         } catch (NoSuchElementException e) {
-            System.out.println( "Can\'t get City with id: " + id + '\n' + e.getMessage() );
+            System.out.println( "Can't get City with id: " + id + '\n' + e.getMessage() );
             return null;
         }
     }
@@ -39,7 +39,7 @@ public class CityService {
         if (storage.add(city) )
             return city;
         else
-            System.out.println( "Can\'t add new City (" + city + ") in storage ");
+            System.out.println( "Can't add new City (" + city + ") in storage ");
         return null;
 
     }
@@ -75,10 +75,10 @@ public class CityService {
     public CityDto deleteCity(int id) {
         CityDto city = getCity(id);
         if (city == null) {
-            System.out.println("Can\'t complete deletion, because city with id " + id + " does not exists");
+            System.out.println("Can't complete deletion, because city with id " + id + " does not exists");
             return null;
         } else if(!storage.remove(city)) {
-            System.out.println("Can\'t complete deletion of existing city ");
+            System.out.println("Can't complete deletion of existing city ");
             return null;
         }
         return city;

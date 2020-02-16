@@ -6,14 +6,14 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-public class User {
+public class UserEntity {
     @Id
     private int id;
     private String name;
     private UserType userType;
 
 
-    public User(int id, String name, UserType userType) {
+    public UserEntity(int id, String name, UserType userType) {
         this.id = id;
         this.name = name;
         this.userType = userType;

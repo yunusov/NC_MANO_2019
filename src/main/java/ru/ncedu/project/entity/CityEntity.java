@@ -8,14 +8,14 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-public class City  {
+public class CityEntity {
     @Id
     private int id;
     private String name;
     private double x, y;
 
 
-    public City(int id, String name, double x, double y) {
+    public CityEntity(int id, String name, double x, double y) {
         this.id = id;
         this.name = name;
         this.x = x;

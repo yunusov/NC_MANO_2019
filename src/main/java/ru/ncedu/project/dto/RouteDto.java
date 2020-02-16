@@ -1,11 +1,13 @@
 package ru.ncedu.project.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class RouteDto extends AbstractEntityParent {
     private UserDto userDto;
