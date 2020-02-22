@@ -12,7 +12,7 @@ import ru.mano.aviasales.repository.CityRepository;
 import ru.mano.aviasales.service.CityService;
 
 @SpringBootTest
-//@RunWith(SpringRunner.class)
+@RunWith(SpringRunner.class)
 public class CityTest {
     @Autowired
     private CityRepository cityRepository;

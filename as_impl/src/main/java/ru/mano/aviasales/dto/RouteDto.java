@@ -29,12 +29,7 @@ public class RouteDto extends BaseDto {
         super();
         this.userDtoId = userDtoId;
     }
-
-    public List<TicketDto> getTicketList() {
-        return tickets;
-    }
-
-
+/*
     public boolean addTicket(TicketDto ticketDto) {
         return this.tickets.add(ticketDto);
     }
@@ -42,5 +37,5 @@ public class RouteDto extends BaseDto {
     public boolean addTicket(List<TicketDto> ticketDtos) {
         return this.tickets.addAll(ticketDtos);
     }
-
+*/
 }

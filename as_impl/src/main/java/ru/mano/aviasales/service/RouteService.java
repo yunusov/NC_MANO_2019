@@ -2,6 +2,8 @@ package ru.mano.aviasales.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mano.aviasales.dto.RouteDto;
 import ru.mano.aviasales.dto.TicketDto;
 import ru.mano.aviasales.dto.UserDto;
@@ -38,7 +40,7 @@ public class RouteService {
     private UserMapper userMapper;
 
 
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public RouteDto getRoute(String id) {
         Optional<RouteEntity> route = routeRepository.findById(id);
         RouteEntity routeEntity = route.orElseThrow(IllegalArgumentException::new);
@@ -48,7 +50,7 @@ public class RouteService {
 
 
 
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public RouteDto createRoute(String userId, String ticketId) {
         RouteDto routeDto = new RouteDto(userService.getUser(userId), ticketService.getTicket(ticketId));
         RouteEntity routeEntity = routeRepository.save(routeMapper.from(routeDto));
@@ -57,7 +59,7 @@ public class RouteService {
     }
 
 
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public RouteDto createRoute(String userId, String... ticketIds) {
         List<TicketEntity> list = ticketRepository.findAllById(Arrays.asList(ticketIds));
 
@@ -67,7 +69,7 @@ public class RouteService {
         return routeMapper.from(returnEntity);
     }
 
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public RouteDto updateRoute(String routeId, RouteDto  newRoute) {
         if(routeId != null && routeRepository.existsById(routeId) ) {
             newRoute.setId(routeId);
@@ -79,6 +81,8 @@ public class RouteService {
         }
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void deleteRoute(String routeId) {
         if(routeId != null) {
             routeRepository.deleteById(routeId);
@@ -87,12 +91,15 @@ public class RouteService {
         }
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public double getRouteDistanceById(String routeId) {
         RouteDto routeDto = getRoute(routeId);
 
         return totalDistance(routeDto);
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public double getRouteCostById(String routeId) {
         RouteDto routeDto = getRoute(routeId);
 
@@ -110,4 +117,21 @@ public class RouteService {
                 .sum();
     }
 
+
+
+    public List<RouteDto> searchRoutes(String inputStartCity, String inputEndCity) {
+        List<TicketEntity> all = ticketRepository.findAll();
+        List<RouteDto> routeDtos = new ArrayList<>();
+        List<RouteEntity> routeEntities = new ArrayList<>();
+
+        for (TicketEntity ticketEntity : all) {
+            if (inputStartCity.equals(ticketEntity.getFrom().getName())) {
+                RouteEntity routeEntity = new RouteEntity();
+                routeEntity.addTicket(ticketEntity);
+                routeEntities.add(routeEntity);
+            }
+        }
+
+        return null;
+    }
 }

@@ -3,6 +3,8 @@ package ru.mano.aviasales.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mano.aviasales.dto.Role;
 import ru.mano.aviasales.dto.UserDto;
 import ru.mano.aviasales.entity.UserEntity;
@@ -20,7 +22,7 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public UserDto getUser(String userId) {
         Optional<UserEntity> user = repository.findById(userId);
 
@@ -28,7 +30,7 @@ public class UserService {
         return userMapper.from(userEntity);
     }
 
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public UserDto createUser(String name) {
         UserDto userDto = new UserDto(name, Role.USER);
         UserEntity userEntity = repository.save(userMapper.from(userDto));
@@ -36,6 +38,7 @@ public class UserService {
         return userMapper.from(userEntity);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public UserDto createAdmin(String name) {
         UserDto userDto = new UserDto(name, Role.ADMIN);
         UserEntity userEntity = repository.save(userMapper.from(userDto));
@@ -43,6 +46,7 @@ public class UserService {
         return userMapper.from(userEntity);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public UserDto updateUser(String userId, UserDto newUser) {
         if(userId != null && repository.existsById(userId) ) {
             newUser.setId(userId);
@@ -54,6 +58,8 @@ public class UserService {
         }
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void deleteUser(String userId) {
         if(userId != null) {
             repository.deleteById(userId);

@@ -3,6 +3,8 @@ package ru.mano.aviasales.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mano.aviasales.dto.CityDto;
 import ru.mano.aviasales.entity.CityEntity;
 import ru.mano.aviasales.mapper.CityMapper;
@@ -21,6 +23,7 @@ public class CityService {
     @Autowired
     private CityMapper cityMapper;
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public CityDto getCity(String id) {
         Optional<CityEntity> city = repository.findById(id);
 
@@ -28,6 +31,8 @@ public class CityService {
         return cityMapper.from(cityEntity);
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public CityDto createCity(String name, double x, double y) {
         CityDto city = new CityDto(name, x, y);
         CityEntity cityEntity = repository.save(cityMapper.from(city));//TODO:
@@ -35,6 +40,8 @@ public class CityService {
         return cityMapper.from(cityEntity);
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public CityDto updateCity(String cityId, CityDto city) {
         if(cityId != null && repository.existsById(cityId) ) {
             city.setId(cityId);
@@ -47,7 +54,7 @@ public class CityService {
     }
 
 
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void deleteCity(String id) {
         if(id != null) {
             repository.deleteById(id);
