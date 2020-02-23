@@ -16,6 +16,7 @@ import ru.mano.aviasales.repository.RouteRepository;
 import ru.mano.aviasales.repository.TicketRepository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -38,6 +39,9 @@ public class RouteService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private TripManager tripManager;
 
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -119,19 +123,10 @@ public class RouteService {
 
 
 
-    public List<RouteDto> searchRoutes(String inputStartCity, String inputEndCity) {
-        List<TicketEntity> all = ticketRepository.findAll();
-        List<RouteDto> routeDtos = new ArrayList<>();
-        List<RouteEntity> routeEntities = new ArrayList<>();
+    public List<RouteDto> searchRoutes(String inputStartCity, String inputEndCity, String userId) {
+        UserDto userDto = userService.getUser(userId);
+        List<RouteEntity> routeEntities = tripManager.searchRoutes(inputStartCity, inputEndCity, userMapper.from(userDto));
+        return routeEntities.stream().map(routeMapper::from).collect(Collectors.toList());
 
-        for (TicketEntity ticketEntity : all) {
-            if (inputStartCity.equals(ticketEntity.getFrom().getName())) {
-                RouteEntity routeEntity = new RouteEntity();
-                routeEntity.addTicket(ticketEntity);
-                routeEntities.add(routeEntity);
-            }
-        }
-
-        return null;
     }
 }

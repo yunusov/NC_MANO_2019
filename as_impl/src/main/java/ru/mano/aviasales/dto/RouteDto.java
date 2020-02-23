@@ -3,6 +3,7 @@ package ru.mano.aviasales.dto;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -11,7 +12,7 @@ import java.util.List;
 public class RouteDto extends BaseDto {
 
     private UserDto userDtoId;
-    private List<TicketDto> tickets = new ArrayList<>();
+    private List<TicketDto> tickets = new LinkedList<>();
 
     public RouteDto(UserDto userDtoId, TicketDto ticketDto) {
         super();

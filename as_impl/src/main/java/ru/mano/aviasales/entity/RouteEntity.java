@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class RouteEntity {
     @ManyToOne
     private UserEntity userEntity;
     @OneToMany
-    private List<TicketEntity> tickets = new ArrayList<>();
+    private List<TicketEntity> tickets;
 
     public RouteEntity() {
     }
@@ -30,6 +31,20 @@ public class RouteEntity {
     public RouteEntity(UserEntity userEntity, List<TicketEntity> tickets) {
         this.id = UUID.randomUUID().toString();
         this.userEntity = userEntity;
+        this.tickets = new LinkedList<>();
         this.tickets = tickets;
+    }
+
+    public RouteEntity(TicketEntity ticketEntity) {
+        this.tickets = new LinkedList<>();
+        this.tickets.add(ticketEntity);
+    }
+
+    public RouteEntity(RouteEntity parent, TicketEntity ticketEntity) {
+        this.id = UUID.randomUUID().toString();
+        this.userEntity = parent.userEntity;
+        this.tickets = new LinkedList<>();
+        this.tickets.addAll(parent.tickets);
+        this.tickets.add(ticketEntity);
     }
 }

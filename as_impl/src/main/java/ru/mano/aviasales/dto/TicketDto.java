@@ -19,5 +19,9 @@ public class TicketDto extends BaseDto {
         this.cost = cost;
     }
 
+    // TODO: DeleteLater
+    public String toString() {
+        return String.format("(%s -> %s) for %.2f$", from.getName(), to.getName(), cost);
+    }
 
 }

@@ -9,7 +9,11 @@ import ru.mano.aviasales.dto.TicketDto;
 import ru.mano.aviasales.entity.TicketEntity;
 import ru.mano.aviasales.mapper.TicketMapper;
 import ru.mano.aviasales.repository.TicketRepository;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -32,7 +36,15 @@ public class TicketService {
 
         return ticketMapper.from(ticketEntity);
     }
+    
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public List<TicketEntity> getAllTickets() {
+        List<TicketEntity> allTickets = repository.findAll();
 
+        if (allTickets.size() == 0) throw new NoSuchElementException();
+
+        return allTickets;
+    }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public TicketDto createTicket(String fromId, String toId, double cost) {

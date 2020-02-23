@@ -17,6 +17,8 @@ import ru.mano.aviasales.service.RouteService;
 import ru.mano.aviasales.service.TicketService;
 import ru.mano.aviasales.service.UserService;
 
+import java.util.List;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class RouteTest {
@@ -56,11 +58,41 @@ public class RouteTest {
 
         Assert.assertEquals(routeDto, routeService.getRoute(routeDto.getId()));
 
-
-
-
-
     }
 
+    @Test
+    public void searchRoutes() {
+        CityDto a = cityService.createCity("A", -6, 4);
+        CityDto b = cityService.createCity("B", 4, -2);
+        CityDto c = cityService.createCity("C", -4, 2);
+        CityDto d = cityService.createCity("D", 0, 0);
+        CityDto e = cityService.createCity("E", 2, 3);
+        CityDto f = cityService.createCity("F", -3, -3);
+        CityDto g = cityService.createCity("G", 6, 1);
+        CityDto h = cityService.createCity("H", 2, -5);
+        CityDto i = cityService.createCity("I", -1, 3);
 
+        ticketService.createTicket(a, c, 1400);
+        ticketService.createTicket(c, d, 1400);
+        ticketService.createTicket(d, b, 1400);
+        ticketService.createTicket(a, i, 1400);
+        ticketService.createTicket(a, f, 1400);
+        ticketService.createTicket(c, i, 1000);
+        ticketService.createTicket(i, e, 1400);
+        ticketService.createTicket(f, h, 1400);
+        ticketService.createTicket(f, d, 1400);
+        ticketService.createTicket(e, d, 1400);
+        ticketService.createTicket(e, g, 1400);
+        ticketService.createTicket(g, b, 1400);
+        ticketService.createTicket(h, b, 1400);
+
+        UserDto user = userService.createUser("Person");
+
+        List<RouteDto> routeDtos = routeService.searchRoutes(a.getId(), b.getId(), user.getId());
+        routeDtos.forEach(System.out::println);
+
+    }
 }
+
+
+
