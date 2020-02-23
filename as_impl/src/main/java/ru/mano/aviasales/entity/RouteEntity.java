@@ -34,17 +34,5 @@ public class RouteEntity {
         this.tickets = new LinkedList<>();
         this.tickets = tickets;
     }
-
-    public RouteEntity(TicketEntity ticketEntity) {
-        this.tickets = new LinkedList<>();
-        this.tickets.add(ticketEntity);
-    }
-
-    public RouteEntity(RouteEntity parent, TicketEntity ticketEntity) {
-        this.id = UUID.randomUUID().toString();
-        this.userEntity = parent.userEntity;
-        this.tickets = new LinkedList<>();
-        this.tickets.addAll(parent.tickets);
-        this.tickets.add(ticketEntity);
-    }
+    
 }

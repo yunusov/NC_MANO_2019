@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Component
 public class TripManager {
 
-    private final int MAX_STEPS = 6;
+    private final int MAX_HOPS = 6;  // Maybe must come from caller method
 
     @Autowired
     private TicketService ticketService;
@@ -22,22 +22,24 @@ public class TripManager {
     private List<TicketEntity> totalTickets;
     private String inputEndCity;
 
-    private LinkedList<Agent> agentList = new LinkedList<>();  // LinkedList ?
-    private LinkedList<Agent> childList = new LinkedList<>();
-    private LinkedList<Agent> resultList = new LinkedList<>();
+    private LinkedList<TripAgent> agentList = new LinkedList<>();  // LinkedList ?
+    private LinkedList<TripAgent> bufferList = new LinkedList<>();
+    private LinkedList<TripAgent> resultList = new LinkedList<>();
 
 
     public List<RouteEntity> searchRoutes(String inputStartCity, String inputEndCity, UserEntity userEntity) {
         this.totalTickets = ticketService.getAllTickets();
         this.inputEndCity = inputEndCity;
 
-
         List<TicketEntity> startTickets = findTicketsWithThisStartById(inputStartCity);
 
-        putAgentsOnTheseTickets(startTickets);
 
-        for (int step = 0; step < MAX_STEPS; ++step) {
-            nextStep();
+        for (TicketEntity ticket : startTickets) {
+            agentList.add(new TripAgent(ticket));
+        }
+
+        for (int hop = 0; hop < MAX_HOPS; ++hop) {
+            nextHop();
         }
 
         return resultList.stream()
@@ -52,58 +54,53 @@ public class TripManager {
                 .filter(e -> e.getFrom().getId().equals(inputStartCity))
                 .collect(Collectors.toList());
 
-        if (tickets == null || tickets.size() == 0) {
+        if (tickets.isEmpty()) {
             throw new NoSuchElementException("Can\'t find tickets");
         }
         return tickets;
     }
 
 
-    private void putAgentsOnTheseTickets (List<TicketEntity> list) {
-        for (TicketEntity ticket : list) {
-            agentList.add(new Agent(ticket));
-        }
-    }
-
-
-    private void nextStep() {
-        for (Agent agent : agentList) {
+    private void nextHop() {
+        for (TripAgent agent : agentList) {
             TicketEntity lastTicketOfThisAgent = agent.tickets.getLast();
 
             if (lastTicketOfThisAgent.getTo().getId().equals(inputEndCity)) {
                 resultList.add(agent);
-                continue;
             }
+            else {
 
-            try {
-                List<TicketEntity> startTickets = findTicketsWithThisStartById(lastTicketOfThisAgent.getTo().getId());  //Searching for tickets form current pos
+                    try {
+                        List<TicketEntity> startTickets = findTicketsWithThisStartById(lastTicketOfThisAgent.getTo().getId());  //Searching for tickets form current pos
 
-                for (TicketEntity ticket : startTickets) {
-                    childList.add(new Agent(agent, ticket));
-                }
+                        for (TicketEntity ticket : startTickets) {
+                            bufferList.add(new TripAgent(agent, ticket));
+                        }
 
-            }catch (NoSuchElementException e) {
-                return;  // This is dead end!
+                    } catch (NoSuchElementException e) {
+                        // This is dead end!
+                        // TODO: delete this line later
+                        System.out.println("I stopped in city " + lastTicketOfThisAgent.getTo().getName() + " Can\'t go ahead.");
+                    }
             }
         }
         agentList.clear();
 
-        agentList = childList;
-        childList = new LinkedList<>();
+        agentList = bufferList;
+        bufferList = new LinkedList<>();
     }
 
 
-    private class Agent {
+    private static class TripAgent {   // just ValueHolder as RouteEntity, but without id and user
 
         private LinkedList<TicketEntity> tickets;
 
-
-        public Agent(TicketEntity ticketEntity) {
+        TripAgent(TicketEntity ticketEntity) {
             this.tickets = new LinkedList<>();
             this.tickets.add(ticketEntity);
         }
 
-        public Agent(Agent parent, TicketEntity ticketEntity) {
+        TripAgent(TripAgent parent, TicketEntity ticketEntity) {
             this.tickets = new LinkedList<>();
             this.tickets.addAll(parent.tickets);
             this.tickets.add(ticketEntity);
@@ -112,7 +109,5 @@ public class TripManager {
         RouteEntity toRouteEntity(UserEntity userEntity) {
             return new RouteEntity(userEntity, tickets);
         }
-
-
     }
 }

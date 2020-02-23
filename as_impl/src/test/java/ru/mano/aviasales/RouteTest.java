@@ -71,6 +71,8 @@ public class RouteTest {
         CityDto g = cityService.createCity("G", 6, 1);
         CityDto h = cityService.createCity("H", 2, -5);
         CityDto i = cityService.createCity("I", -1, 3);
+        CityDto j = cityService.createCity("J", -7, 9);
+        CityDto k = cityService.createCity("k", -9, 4);
 
         ticketService.createTicket(a, c, 1400);
         ticketService.createTicket(c, d, 1400);
@@ -85,6 +87,9 @@ public class RouteTest {
         ticketService.createTicket(e, g, 1400);
         ticketService.createTicket(g, b, 1400);
         ticketService.createTicket(h, b, 1400);
+        ticketService.createTicket(a, j, 1400);
+        ticketService.createTicket(a, k, 1400);
+        ticketService.createTicket(k, b, 1400);
 
         UserDto user = userService.createUser("Person");
 
