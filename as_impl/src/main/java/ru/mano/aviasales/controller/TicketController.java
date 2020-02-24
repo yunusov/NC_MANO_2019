@@ -21,14 +21,14 @@ public class TicketController {
     @PostMapping("createTicket")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "OK")})
     @ApiOperation(value = "createTicket", notes = "TicketController")
-    public TicketDto createTicket(CityDto source, CityDto destination) {
+    public TicketDto createTicket(@RequestParam Long source, @RequestParam Long destination) {
         return ticketService.createTicket(source, destination);
     }
 
-    @PutMapping("updateTicket")
+    @PutMapping("updateTicket/{id}")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "NO CONTENT")})
     @ApiOperation(value = "updateTicket", notes = "TicketController")
-    public TicketDto updateTicket(long id, CityDto newSource, CityDto newDestination) {
+    public TicketDto updateTicket(@PathVariable long id, CityDto newSource, CityDto newDestination) {
         TicketDto ticketDto = null;
         try {
             ticketDto = ticketService.updateTicket(id, newSource, newDestination);

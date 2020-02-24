@@ -25,4 +25,10 @@ public class City {
 
     public City() {
     }
+
+    public City(double x, double y, String name) {
+        this.x = x;
+        this.y = y;
+        this.name = name;
+    }
 }

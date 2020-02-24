@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface RouteRepository extends JpaRepository<Route, Long> {
 
-    List<Route> findByUser(User user);
+    List<Route> findByOwner(User user);
 }

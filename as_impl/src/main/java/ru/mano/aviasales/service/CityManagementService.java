@@ -19,18 +19,14 @@ public class CityManagementService {
     private static long nextId = 0;
 
     public CityDto createCity(double x, double y, String name) {
-        long id = generateNewId();
-        City city = cityRepository.save(new City(id, x, y, name));
+        //long id = generateNewId();
+        City city = cityRepository.save(new City(x, y, name));
         return CityMapper.mapTo(city);
     }
 
-    public CityDto getCityById(long id) throws Exception {
+    public CityDto getCityById(long id) {
         Optional<City> city = cityRepository.findById(id);
-        if (city.isPresent()) {
-            return CityMapper.mapTo(city.get());
-        } else {
-            throw new Exception("City with id " + id + " not found");
-        }
+        return city.map(CityMapper::mapTo).orElse(null);
     }
 
     public List<CityDto> getCitiesByName(String name) {

@@ -1,8 +1,10 @@
 package ru.mano.aviasales.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class CityDto extends BaseEntityDto {
 
     private double x;

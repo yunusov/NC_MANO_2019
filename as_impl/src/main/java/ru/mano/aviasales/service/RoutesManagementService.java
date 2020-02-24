@@ -35,7 +35,7 @@ public class RoutesManagementService {
     }
 
     public List<RouteDto> getUsersRoutes(UserDto owner) {
-        return routeRepository.findByUser(UserMapper.mapTo(owner))
+        return routeRepository.findByOwner(UserMapper.mapTo(owner))
                 .stream().map(RouteMapper::mapTo)
                 .collect(Collectors.toList());
     }

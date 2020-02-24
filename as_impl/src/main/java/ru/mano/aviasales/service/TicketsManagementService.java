@@ -7,6 +7,7 @@ import ru.mano.aviasales.dto.TicketDto;
 import ru.mano.aviasales.entity.Ticket;
 import ru.mano.aviasales.mapper.CityMapper;
 import ru.mano.aviasales.mapper.TicketMapper;
+import ru.mano.aviasales.repository.CityRepository;
 import ru.mano.aviasales.repository.TicketRepository;
 
 import java.util.*;
@@ -17,11 +18,16 @@ public class TicketsManagementService {
 
     @Autowired
     private TicketRepository ticketRepository;
+
+    @Autowired
+    private CityManagementService cityManagementService;
+
     private static long nextId = 0;
 
-    public TicketDto createTicket(CityDto source, CityDto destination) {
-        long id = generateNewId();
-        Ticket t = new Ticket(id, CityMapper.mapTo(source), CityMapper.mapTo(destination));
+    public TicketDto createTicket(Long source, Long destination) {
+        //long id = generateNewId();
+        Ticket t = new Ticket(CityMapper.mapTo(cityManagementService.getCityById(source)),
+                CityMapper.mapTo(cityManagementService.getCityById(destination)));
         ticketRepository.save(t);
         return TicketMapper.mapTo(t);
     }

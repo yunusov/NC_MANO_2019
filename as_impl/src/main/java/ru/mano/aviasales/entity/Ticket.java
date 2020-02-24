@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class Ticket {
 
     @Id
+    @GeneratedValue()
     @Column(name = "ticket_id")
     private long id;
 
@@ -26,6 +27,11 @@ public class Ticket {
     private City destination;
 
     public Ticket() {
+    }
+
+    public Ticket(City source, City destination) {
+        this.source = source;
+        this.destination = destination;
     }
 
     @Override
