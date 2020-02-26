@@ -1,6 +1,9 @@
 package ru.mano.aviasales.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.mano.aviasales.dto.Role;
 import ru.mano.aviasales.dto.UserDto;
@@ -8,19 +11,34 @@ import ru.mano.aviasales.entity.User;
 import ru.mano.aviasales.mapper.UserMapper;
 import ru.mano.aviasales.repository.UserRepository;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
-public class UserManagementService {
+public class UserManagementService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     private static long nextId = 0;
 
-    public UserDto createUser(String name) {
-        long id = generateNewId();
-        userRepository.save(new User(id, name, ru.mano.aviasales.entity.Role.USER));
-        return new UserDto(id, name, Role.USER);
+    //TODO: если вызывается при регистрации пользователя, то добавить password и username
+    public UserDto createUser(String name, String username, String password) {
+        //long id = generateNewId();
+        User entity = new User();
+        Set<ru.mano.aviasales.entity.Role> roles = new HashSet<>();
+        roles.add(ru.mano.aviasales.entity.Role.USER);
+        entity.setName(name);
+        entity.setRole(roles);
+        entity.setEnabled(true);
+        entity.setUsername(username);
+        entity.setPassword(passwordEncoder.encode(password));
+        entity = userRepository.save(entity);
+        return new UserDto(entity.getId(), name, Role.USER);
     }
 
     public UserDto getUser(long id) throws Exception {
@@ -32,7 +50,7 @@ public class UserManagementService {
         }
     }
 
-    public UserDto updateUsersName(long id, String name) throws Exception {
+    public UserDto updateUsersName(long id, String name) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             user.get().setName(name);
@@ -49,5 +67,10 @@ public class UserManagementService {
 
     private long generateNewId() {
         return nextId++;
+    }
+
+    @Override
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username);
     }
 }

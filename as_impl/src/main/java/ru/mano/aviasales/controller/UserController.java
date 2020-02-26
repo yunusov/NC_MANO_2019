@@ -4,33 +4,46 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.mano.aviasales.dto.UserDto;
 import ru.mano.aviasales.service.UserManagementService;
 
+import java.security.Principal;
+
 @RestController
-@RequestMapping("users")
+//@RequestMapping("/")
 public class UserController {
     @Autowired
     private UserManagementService userService;
 
-    @PostMapping("add")
+    @GetMapping("success")
+    public String success(Principal principal, Model model) {
+        model.addAttribute("name", principal.getName());
+        return "success";
+    }
+
+    /*@GetMapping("/registration")
+    public String registration() {
+        return "registration";
+    }
+
+    @PostMapping("/registration")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "OK")})
     @ApiOperation(value = "addUser", notes = "UserController")
-    public UserDto addUser(@RequestBody String name) {
-        return userService.createUser(name);
-    }
+    public String addUser(@RequestBody @RequestParam String name,
+                           @RequestParam String username,
+                           @RequestParam String password) {
+        userService.createUser(name, username, password);
+        return "redirect:/login";
+    }*/
 
     @PutMapping("update")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "updateUsername", notes = "UserController")
     public UserDto updateUsername(long id, String newName) {
         UserDto user = null;
-        try {
-            user = userService.updateUsersName(id, newName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        user = userService.updateUsersName(id, newName);
         return user;
     }
 

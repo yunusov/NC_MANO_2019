@@ -8,6 +8,9 @@ public class UserDto extends BaseEntityDto {
     private String name;
     private Role role;
 
+    public UserDto() {
+    }
+
     public UserDto(long id, String name, Role role) {
         this.id = id;
         this.name = name;
