@@ -2,6 +2,8 @@ package ru.mano.aviasales.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mano.aviasales.entity.RouteEntity;
 import ru.mano.aviasales.entity.TicketEntity;
 import ru.mano.aviasales.entity.UserEntity;
@@ -19,27 +21,22 @@ public class TripManager {
     @Autowired
     private TicketService ticketService;
 
-    private List<TicketEntity> totalTickets;
-    private String inputEndCity;
-
-    private LinkedList<TripAgent> agentList = new LinkedList<>();  // LinkedList ?
-    private LinkedList<TripAgent> bufferList = new LinkedList<>();
-    private LinkedList<TripAgent> resultList = new LinkedList<>();
-
-
+    @Transactional(propagation= Propagation.REQUIRED)
     public List<RouteEntity> searchRoutes(String inputStartCity, String inputEndCity, UserEntity userEntity) {
-        this.totalTickets = ticketService.getAllTickets();
-        this.inputEndCity = inputEndCity;
 
-        List<TicketEntity> startTickets = findTicketsWithThisStartByName(inputStartCity);
+        List<TicketEntity> totalTickets = ticketService.getAllTickets();
+        LinkedList<TripAgent> agentList = new LinkedList<>();
+        LinkedList<TripAgent> resultList = new LinkedList<>();
 
+        List<TicketEntity> startTickets = findTicketsWithThisStartByName(totalTickets, inputStartCity);
 
         for (TicketEntity ticket : startTickets) {
             agentList.add(new TripAgent(ticket));
         }
+        startTickets.clear();
 
         for (int hop = 0; hop < MAX_HOPS; ++hop) {
-            nextHop();
+            nextHop(totalTickets, agentList, resultList, inputEndCity);
         }
 
         return resultList.stream()
@@ -49,19 +46,18 @@ public class TripManager {
 
 
 
-    private List<TicketEntity> findTicketsWithThisStartByName(String inputStartCity) {
+    private List<TicketEntity> findTicketsWithThisStartByName(List<TicketEntity> totalTickets, String inputStartCity) {
         List<TicketEntity> tickets = totalTickets.stream()
                 .filter(e -> e.getFrom().getName().equals(inputStartCity))
                 .collect(Collectors.toList());
 
-        if (tickets.isEmpty()) {
-            throw new NoSuchElementException("Can\'t find tickets");
-        }
         return tickets;
     }
 
 
-    private void nextHop() {
+    private void nextHop(List<TicketEntity> totalTickets, LinkedList<TripAgent> agentList, LinkedList<TripAgent> resultList, String inputEndCity) {
+        LinkedList<TripAgent> bufferList = new LinkedList<>();
+
         for (TripAgent agent : agentList) {
             TicketEntity lastTicketOfThisAgent = agent.tickets.getLast();
 
@@ -69,25 +65,15 @@ public class TripManager {
                 resultList.add(agent);
             }
             else {
+                List<TicketEntity> startTickets = findTicketsWithThisStartByName(totalTickets, lastTicketOfThisAgent.getTo().getName());  //Searching for tickets form current pos
 
-                    try {
-                        List<TicketEntity> startTickets = findTicketsWithThisStartByName(lastTicketOfThisAgent.getTo().getName());  //Searching for tickets form current pos
-
-                        for (TicketEntity ticket : startTickets) {
-                            bufferList.add(new TripAgent(agent, ticket));
-                        }
-
-                    } catch (NoSuchElementException e) {
-                        // This is dead end!
-                        // TODO: delete this line later
-                        System.out.println("I stopped in city " + lastTicketOfThisAgent.getTo().getName() + " Can\'t go ahead.");
-                    }
+                for (TicketEntity ticket : startTickets) {
+                    bufferList.add(new TripAgent(agent, ticket));
+                }
             }
         }
         agentList.clear();
-
-        agentList = bufferList;
-        bufferList = new LinkedList<>();
+        agentList.addAll(bufferList);
     }
 
 
