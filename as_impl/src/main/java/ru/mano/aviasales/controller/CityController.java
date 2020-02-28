@@ -11,19 +11,19 @@ import ru.mano.aviasales.service.CityManagementService;
 import java.util.List;
 
 @RestController
-@RequestMapping("city")
+@RequestMapping("/city")
 public class CityController {
     @Autowired
     private CityManagementService cityService;
 
-    @PostMapping("createCity")
+    @PostMapping("/createCity")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "OK")})
     @ApiOperation(value = "create", notes = "CityController")
     public CityDto createCity(double x, double y, String name) {
         return cityService.createCity(x, y, name);
     }
 
-    @GetMapping("get")
+    @GetMapping("/get")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "get", notes = "CityController")
     public CityDto getCity(long id) {
@@ -35,14 +35,14 @@ public class CityController {
         }
     }
 
-    @GetMapping("getWithSameName")
+    @GetMapping("/getWithSameName")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getList", notes = "CityController")
     public List<CityDto> getCitiesByName(String name) {
         return cityService.getCitiesByName(name);
     }
 
-    @PutMapping("updateCoord")
+    @PutMapping("/updateCoord")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "NO CONTENT")})
     @ApiOperation(value = "updateCoordinates", notes = "CityController")
     public CityDto updateCoordinates(long id, double newX, double newY) {
@@ -55,7 +55,7 @@ public class CityController {
         return update;
     }
 
-    @PutMapping("updateName")
+    @PutMapping("/updateName")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "NO CONTENT")})
     @ApiOperation(value = "updateName", notes = "CityController")
     public CityDto updateName(long id, String newName) {
@@ -68,7 +68,7 @@ public class CityController {
         return update;
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "delete", notes = "CityController")
     public void delete(long id) {

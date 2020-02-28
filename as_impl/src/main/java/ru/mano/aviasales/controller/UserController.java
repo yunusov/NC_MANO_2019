@@ -12,33 +12,13 @@ import ru.mano.aviasales.service.UserManagementService;
 import java.security.Principal;
 
 @RestController
-//@RequestMapping("/")
+@RequestMapping("/user")
 public class UserController {
+
     @Autowired
     private UserManagementService userService;
 
-    @GetMapping("success")
-    public String success(Principal principal, Model model) {
-        model.addAttribute("name", principal.getName());
-        return "success";
-    }
-
-    /*@GetMapping("/registration")
-    public String registration() {
-        return "registration";
-    }
-
-    @PostMapping("/registration")
-    @ApiResponses(value = {@ApiResponse(code = 201, message = "OK")})
-    @ApiOperation(value = "addUser", notes = "UserController")
-    public String addUser(@RequestBody @RequestParam String name,
-                           @RequestParam String username,
-                           @RequestParam String password) {
-        userService.createUser(name, username, password);
-        return "redirect:/login";
-    }*/
-
-    @PutMapping("update")
+    @PutMapping("/update")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "updateUsername", notes = "UserController")
     public UserDto updateUsername(long id, String newName) {
@@ -47,7 +27,7 @@ public class UserController {
         return user;
     }
 
-    @GetMapping("get")
+    @GetMapping("/get")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getUser", notes = "UserController")
     public UserDto getUser(long id) {

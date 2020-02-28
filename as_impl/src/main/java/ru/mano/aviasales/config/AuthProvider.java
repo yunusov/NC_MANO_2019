@@ -24,6 +24,7 @@ public class AuthProvider implements AuthenticationProvider {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    //перехватывает POST со страницы login
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
@@ -37,12 +38,12 @@ public class AuthProvider implements AuthenticationProvider {
         }
 
         if (user != null && (user.getUsername().equals(username))) {
-            /*if (!passwordEncoder.matches(password, user.getPassword())) {
-                throw new BadCredentialsException("Wrong password");
-            }*/
-            if (!user.getPassword().equals(password)) {
+            if (!passwordEncoder.matches(password, user.getPassword())) {
                 throw new BadCredentialsException("Wrong password");
             }
+            /*if (!user.getPassword().equals(password)) {
+                throw new BadCredentialsException("Wrong password");
+            }*/
 
             Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
 
