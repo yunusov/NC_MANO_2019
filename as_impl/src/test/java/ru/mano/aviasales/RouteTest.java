@@ -18,6 +18,7 @@ import ru.mano.aviasales.service.TicketService;
 import ru.mano.aviasales.service.UserService;
 
 import java.util.List;
+import java.util.Random;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -57,47 +58,59 @@ public class RouteTest {
         RouteDto routeDto = routeService.createRoute(user.getId(), ticket.getId(), ticket2.getId());
 
         Assert.assertEquals(routeDto, routeService.getRoute(routeDto.getId()));
-
     }
 
     @Test
     public void searchRoutes() {
-        CityDto a = cityService.createCity("A", -6, 4);
-        CityDto b = cityService.createCity("B", 4, -2);
-        CityDto c = cityService.createCity("C", -4, 2);
-        CityDto d = cityService.createCity("D", 0, 0);
-        CityDto e = cityService.createCity("E", 2, 3);
-        CityDto f = cityService.createCity("F", -3, -3);
-        CityDto g = cityService.createCity("G", 6, 1);
-        CityDto h = cityService.createCity("H", 2, -5);
-        CityDto i = cityService.createCity("I", -1, 3);
-        CityDto j = cityService.createCity("J", -7, 9);
-        CityDto k = cityService.createCity("k", -9, 4);
+        int cityAmount = 11;
+        CityDto[] cityDtos = new CityDto[cityAmount];
+        int[][] positions = {
+                {-6, 4},   // {x, y}
+                { 4,-2},
+                {-4, 2},
+                { 0, 0},
+                { 2, 3},
+                {-3,-3},
+                { 6, 1},
+                {2, -5},
+                {-1, 3},
+                {-7, 9},
+                {-9, 4}
+        };
+        char cityName = 'A';
+        for (int i=0; i<positions.length; ++i) {
+            cityDtos[i] = cityService.createCity(String.valueOf(cityName++), positions[i][0], positions[i][1]);
+        }
 
-        ticketService.createTicket(a, c, 1400);
-        ticketService.createTicket(c, d, 1400);
-        ticketService.createTicket(d, b, 1400);
-        ticketService.createTicket(a, i, 1400);
-        ticketService.createTicket(a, f, 1400);
-        ticketService.createTicket(c, i, 1000);
-        ticketService.createTicket(i, e, 1400);
-        ticketService.createTicket(f, h, 1400);
-        ticketService.createTicket(f, d, 1400);
-        ticketService.createTicket(e, d, 1400);
-        ticketService.createTicket(e, g, 1400);
-        ticketService.createTicket(g, b, 1400);
-        ticketService.createTicket(h, b, 1400);
-        ticketService.createTicket(a, j, 1400);
-        ticketService.createTicket(a, k, 1400);
-        ticketService.createTicket(k, b, 1400);
+        int[][] tickets = {
+                {0,  2},   //from A(0) to C(2)
+                {0,  5},
+                {0,  8},
+                {0,  9},
+                {0, 10},
+                {2,  3},
+                {2,  8},
+                {3,  1},
+                {4,  3},
+                {4,  6},
+                {5,  3},
+                {5,  7},
+                {6,  1},
+                {7,  1},
+                {8,  4},
+                {10, 1},
+        };
+
+        Random random = new Random();
+        for (int i=0; i<tickets.length; ++i) {
+            ticketService.createTicket(cityDtos[tickets[i][0]], cityDtos[tickets[i][1]], random.nextInt(1001));
+        }
 
         UserDto user = userService.createUser("Person");
 
-        List<RouteDto> routeDtos = routeService.searchRoutes(a.getId(), b.getId(), user.getId());
+        List<RouteDto> routeDtos = routeService.searchRoutes("A", "B", user.getId());
         routeDtos.forEach(System.out::println);
 
     }
 }
-
-
 

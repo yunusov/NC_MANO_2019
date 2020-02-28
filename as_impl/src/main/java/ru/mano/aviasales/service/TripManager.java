@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Component
 public class TripManager {
 
-    private final int MAX_HOPS = 6;  // Maybe must come from caller method
+    private final int MAX_HOPS = 4;  // Maybe must come from caller method
 
     @Autowired
     private TicketService ticketService;
@@ -31,7 +31,7 @@ public class TripManager {
         this.totalTickets = ticketService.getAllTickets();
         this.inputEndCity = inputEndCity;
 
-        List<TicketEntity> startTickets = findTicketsWithThisStartById(inputStartCity);
+        List<TicketEntity> startTickets = findTicketsWithThisStartByName(inputStartCity);
 
 
         for (TicketEntity ticket : startTickets) {
@@ -49,9 +49,9 @@ public class TripManager {
 
 
 
-    private List<TicketEntity> findTicketsWithThisStartById(String inputStartCity) {
+    private List<TicketEntity> findTicketsWithThisStartByName(String inputStartCity) {
         List<TicketEntity> tickets = totalTickets.stream()
-                .filter(e -> e.getFrom().getId().equals(inputStartCity))
+                .filter(e -> e.getFrom().getName().equals(inputStartCity))
                 .collect(Collectors.toList());
 
         if (tickets.isEmpty()) {
@@ -65,13 +65,13 @@ public class TripManager {
         for (TripAgent agent : agentList) {
             TicketEntity lastTicketOfThisAgent = agent.tickets.getLast();
 
-            if (lastTicketOfThisAgent.getTo().getId().equals(inputEndCity)) {
+            if (lastTicketOfThisAgent.getTo().getName().equals(inputEndCity)) {
                 resultList.add(agent);
             }
             else {
 
                     try {
-                        List<TicketEntity> startTickets = findTicketsWithThisStartById(lastTicketOfThisAgent.getTo().getId());  //Searching for tickets form current pos
+                        List<TicketEntity> startTickets = findTicketsWithThisStartByName(lastTicketOfThisAgent.getTo().getName());  //Searching for tickets form current pos
 
                         for (TicketEntity ticket : startTickets) {
                             bufferList.add(new TripAgent(agent, ticket));

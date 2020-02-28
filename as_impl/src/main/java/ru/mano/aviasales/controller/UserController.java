@@ -10,34 +10,38 @@ import ru.mano.aviasales.service.UserService;
 
 
 @RestController
-//@RequestMapping("/")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/user")
+
+    @PostMapping("/")
     @ApiResponses(value = {@ApiResponse(code = 202, message = "Created")})
     @ApiOperation(value = "createUser", notes = "User Controller")
     public UserDto createUser(String name) {
         return userService.createUser(name);
     }
 
-    @GetMapping("/user")
+
+    @GetMapping("/")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "getUser", notes = "User Controller")
     public UserDto getUser(String id) {
             return userService.getUser(id); //Can return Null
     }
 
-    @PutMapping("/user")
+
+    @PutMapping("/")
     @ApiResponses(value = {@ApiResponse(code = 201, message = "Accepted")})
     @ApiOperation(value = "updateUserName", notes = "User Controller")
     public UserDto updateUserName(String id, UserDto newName) {
         return userService.updateUser(id, newName);
     }
 
-    @DeleteMapping("/user")
+
+    @DeleteMapping("/")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "No Content")})
     @ApiOperation(value = "deleteUser", notes = "User Controller")
     public void deleteUser(String id) {
@@ -46,19 +50,5 @@ public class UserController {
 
 
 
-
-/*
-
-    @PostMapping("resendTest")
-    @ApiResponses(value = {@ApiResponse(code = 201, message = "OK")})
-    @ApiOperation(value = "resendTest", notes = "Demo Controller")
-    public String resendTest(String data) {
-        Map<String, String> map = new HashMap<>();
-        ResponseEntity<String> forEntity = restTemplate.getForEntity("http://localhost:8080/demo/info", String.class, map);
-        System.out.println("getStatusCode: " + forEntity.getStatusCode());
-        System.out.println("body: " + forEntity.getBody());
-        return forEntity.getBody();
-    }
-    */
 
 }
