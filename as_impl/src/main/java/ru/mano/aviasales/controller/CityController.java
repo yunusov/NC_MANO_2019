@@ -23,10 +23,10 @@ public class CityController {
         return cityService.createCity(x, y, name);
     }
 
-    @GetMapping("/get")
+    @GetMapping("/{id}")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @ApiOperation(value = "get", notes = "CityController")
-    public CityDto getCity(long id) {
+    public CityDto getCity(@RequestParam long id) {
         try {
             return cityService.getCityById(id);
         } catch (Exception e) {
@@ -42,7 +42,7 @@ public class CityController {
         return cityService.getCitiesByName(name);
     }
 
-    @PutMapping("/updateCoord")
+    @PutMapping("/{id}")
     @ApiResponses(value = {@ApiResponse(code = 204, message = "NO CONTENT")})
     @ApiOperation(value = "updateCoordinates", notes = "CityController")
     public CityDto updateCoordinates(long id, double newX, double newY) {

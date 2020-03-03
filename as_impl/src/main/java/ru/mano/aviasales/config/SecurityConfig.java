@@ -35,23 +35,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/login", "/registration*")
+                .antMatchers("/registration")
                 .permitAll()
-                .anyRequest().authenticated()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin*")
-                .hasRole("ADMIN")
+                .antMatchers("/admin")
+                .hasAuthority("ADMIN") //в бд хранятся Authority, а не Role!!!
                 .and()
-                .authorizeRequests()
-                .antMatchers("/user", "/login/*")
-                .hasAnyRole("USER", "ADMIN")
-                .and()
-                .formLogin().loginPage("/login")
-                .failureUrl("/login?error").permitAll()
-                .and()
-                .logout()
-                .logoutSuccessUrl("/login").permitAll();
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .failureUrl("/login?error")
+                .permitAll();
     }
 
     @Override

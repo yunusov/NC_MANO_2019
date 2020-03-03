@@ -5,6 +5,9 @@
     <title>Registration</title>
 </head>
 <body>
+<div th:if="${param.error}">
+    <h3>User with same username already exists.</h3>
+</div>
 <form th:action="@{/registration}" method="post">
     <div>
         <label for="name">Name</label>
